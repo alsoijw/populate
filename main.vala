@@ -15,7 +15,9 @@ public class PopulateGame : Gtk.Window
 		this.title = "Populate game";
 		this.destroy.connect(exit);
 		set_default_size(400, 500);
-		create_widgets();
+		var drawing_area = new DrawingArea();
+		drawing_area.draw.connect(on_draw);
+		add(drawing_area);
 		button_press_event.connect(temp);
 		x_center_first = 20;
 		y_center_first = 30;
@@ -26,7 +28,7 @@ public class PopulateGame : Gtk.Window
 	private void create_field()
 	{
 		field = new int[8,10];
-		field[0, 3] = 1;
+		field[0, 3] = 3;
 		field[1, 1] = 1;
 		field[1, 2] = 1;
 		field[1, 3] = 1;
@@ -99,13 +101,6 @@ public class PopulateGame : Gtk.Window
 		return true;
 	}
 	
-	private void create_widgets()
-	{
-		var drawing_area = new DrawingArea();
-		drawing_area.draw.connect(on_draw);
-		add(drawing_area);
-	}
-	
 	private bool on_draw(Widget da, Context ctx)
 	{
 		
@@ -115,7 +110,6 @@ public class PopulateGame : Gtk.Window
 		//FIXME m не очень хорошее имя
 		for(var m = 0; m < field.length[1]; m++)
 		{
-			
 			draw_hexagon_line(ctx, x, y, size, field.length[0], m);
 			new_line(m, ref x, ref y, size);
 		}

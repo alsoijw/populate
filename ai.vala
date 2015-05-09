@@ -92,15 +92,19 @@ void arry_max_enemy()
 	{
 		for(var y = 0; y < field.length[1]; y++)
 		{
-			if(enemy_field[x, y] == max)
+			//клетку можно включать в список только если она пуста
+			if(field[x, y] == 1)
 			{
-				list.add(Point(){x = x, y = y});
-			}
-			else if(enemy_field[x, y] > max)
-			{
-				list.clear();
-				max = enemy_field[x, y];
-				list.add(Point(){x = x, y = y});
+				if(enemy_field[x, y] == max)
+				{
+					list.add(Point(){x = x, y = y});
+				}
+				else if(enemy_field[x, y] > max)
+				{
+					list.clear();
+					max = enemy_field[x, y];
+					list.add(Point(){x = x, y = y});
+				}
 			}
 		}
 	}

@@ -1,6 +1,17 @@
 using Gtk;
 using Cairo;
 
+//FIXME [] int -> [] condition
+enum condition
+{
+	missing,
+	empty,
+	my,
+	first,
+	second,
+	third
+}
+
 delegate void DrawMethod();
 
 void move_point(ref double x, ref double y, double angle, double size)
@@ -26,27 +37,7 @@ void draw_hexagon(Context ctx, double centre_x, double centre_y, double size, in
 	search();
 	//FIXME убрать лишнее
 	arry_max_enemy();
-	var point = Point(){x = x, y = y};
-	if(field[x,y] == 0)
-	{
-		ctx.set_source_rgba(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0, 0);
-	}
-	else if(field[x,y] == 2)
-	{
-		ctx.set_source_rgb(0x92 / 255.0, 0xCD / 255.0, 0x32 / 255.0);
-	}
-	else if(temp2(point))
-	{
-		ctx.set_source_rgb(0xF6 / 255.0, 0x54 / 255.0, 0x6A / 255.0);
-	}
-	else if(field[x,y] == 1)
-	{
-		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
-	}
-	else
-	{
-		ctx.set_source_rgb(0x00, 0x00, 0x00);
-	}
+	select_color(ctx, x, y);
 	ctx.new_path();
 	ctx.move_to(centre_x, centre_y + size);
 	ctx.rel_line_to(size * Math.cos(30.0 / 180 * Math.PI), -size * Math.sin(30.0 / 180 * Math.PI));
@@ -57,6 +48,35 @@ void draw_hexagon(Context ctx, double centre_x, double centre_y, double size, in
 	ctx.close_path();
 	ctx.fill();
 	ctx.restore();
+}
+
+void select_color(Context ctx, int x, int y)
+{
+	var point = Point(){x = x, y = y};
+	if(temp2(point))
+	{
+		ctx.set_source_rgb(0xF6 / 255.0, 0x54 / 255.0, 0x6A / 255.0);
+	}
+	else if(field[x,y] == 0)
+	{
+		ctx.set_source_rgba(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0, 0);
+	}
+	else if(field[x,y] == 2)
+	{
+		ctx.set_source_rgb(0x92 / 255.0, 0xCD / 255.0, 0x32 / 255.0);
+	}
+	else if(field[x,y] == 3)
+	{
+		ctx.set_source_rgb(0x33 / 255.0, 0x99 / 255.0, 0xFF / 255.0);
+	}
+	else if(field[x,y] == 1)
+	{
+		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
+	}
+	else
+	{
+		ctx.set_source_rgb(0x00, 0x00, 0x00);
+	}
 }
 
 bool contain_hexagon_point(double x_hexagon, double y_hexagon, double size, double x, double y)
