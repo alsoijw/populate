@@ -138,15 +138,13 @@ void make_move()
 	if(list.size > 0)
 	{
 		var t = list[Random.int_range(0, list.size)];
-		field[t.x, t.y] = 3;
+		//FIXME 3 - магическое число
+		capture(t, 3);
 	}
 }
 
 bool contain_point(Point point, ArrayList<Point?> items)
 {
-	//FIXME убрать следующие две строки
-	/*my_item = new ArrayList<Point?>();
-	for_each_item(find_all_my_item);*/
 	foreach(var item in items)
 	{
 		if(point == item)
@@ -155,6 +153,19 @@ bool contain_point(Point point, ArrayList<Point?> items)
 		}
 	}
 	return false;
+}
+
+void capture(Point point, int val)
+{
+	var near = nearby_hex(point.x, point.y);
+	foreach(var item in near)
+	{
+		if(field[item.x, item.y] > 1)
+		{
+			field[item.x, item.y] = val;
+		}
+	}
+	field[point.x, point.y] = val;
 }
 
 //FIXME заменить int x, int y  на эту структуру
