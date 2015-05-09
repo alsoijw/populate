@@ -3,6 +3,7 @@ using Gee;
 public int[,] enemy_field;
 //FIXME переименовать
 ArrayList<Point?> list;
+ArrayList<Point?> my_item;
 
 ArrayList<Point?> nearby_hex(int x, int y)
 {
@@ -55,10 +56,11 @@ void number_neighbor_enemy(int x, int y)
 	enemy_field[x, y] =  number;
 }
 
+//FIXME функция в 2 строки не нужна
 void search()
 {
 	enemy_field = new int[field.length[0], field.length[1]];
-	for_each_ithem(number_neighbor_enemy);
+	for_each_item(number_neighbor_enemy);
 }
 
 /*Эта функция выдаёт все клетки, ход в которые будет максимально выгодным*/
@@ -91,34 +93,61 @@ void arry_max_enemy()
 
 delegate void Method(int x, int y);
 
-void for_each_ithem(Method method )
+void for_each_item(Method m)
 {
 	for(var x = 0; x < field.length[0]; x++)
 	{
 		for(var y = 0; y < field.length[1]; y++)
 		{
-			method(x, y);
+			m(x, y);
 		}
+	}
+}
+
+void find_all_my_item(int x, int y)
+{
+	//FIXME my - магическое число
+	/*Значение своей клетки*/
+	const int my = 3;
+	if(field[x, y] == my)
+	{
+		var near = nearby_hex(x, y);
+		for(var i = near.size - 1; i > -1; i--)
+		{
+			if(field[near[i].x, near[i].y] != 1)
+			{
+				near.remove_at(i);
+			}
+		}
+		my_item.add_all(near);
 	}
 }
 
 void make_move()
 {
-	var t = list[Random.int_range(0, list.size)];
-	field[t.x, t.y] = 3;
+	//FIXME раскоментировать
+	my_item = new ArrayList<Point?>();
+	for_each_item(find_all_my_item);
+	for(var i = list.size - 1; i > -1; i--)
+	{
+		if(!(contain_point(list[i], my_item)))
+		{
+			list.remove_at(i);
+		}
+	}
+	if(list.size > 0)
+	{
+		var t = list[Random.int_range(0, list.size)];
+		field[t.x, t.y] = 3;
+	}
 }
 
-//FIXME заменить int x, int y  на эту структуру
-struct Point
+bool contain_point(Point point, ArrayList<Point?> items)
 {
-	public int x;
-	public int y;
-}
-
-//FIXME убрать
-bool temp2(Point point)
-{
-	foreach(var item in list)
+	//FIXME убрать следующие две строки
+	/*my_item = new ArrayList<Point?>();
+	for_each_item(find_all_my_item);*/
+	foreach(var item in items)
 	{
 		if(point == item)
 		{
@@ -128,5 +157,11 @@ bool temp2(Point point)
 	return false;
 }
 
+//FIXME заменить int x, int y  на эту структуру
+struct Point
+{
+	public int x;
+	public int y;
+}
 
 

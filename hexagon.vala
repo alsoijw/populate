@@ -53,11 +53,11 @@ void draw_hexagon(Context ctx, double centre_x, double centre_y, double size, in
 void select_color(Context ctx, int x, int y)
 {
 	var point = Point(){x = x, y = y};
-	if(temp2(point))
+	/*if(temp2(point))
 	{
 		ctx.set_source_rgb(0xF6 / 255.0, 0x54 / 255.0, 0x6A / 255.0);
 	}
-	else if(field[x,y] == 0)
+	else*/ if(field[x,y] == 0)
 	{
 		ctx.set_source_rgba(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0, 0);
 	}

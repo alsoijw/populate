@@ -88,7 +88,12 @@ public class PopulateGame : Gtk.Window
 				{
 					field[x, y] = val;
 				}
-				else if(field[x, y] == val)
+				//FIXME закоментированое раскоментирвать, остальное убрать
+				/*else if(field[x, y] == val)
+				{
+					field[x, y] = 1;
+				}*/
+				else if(field[x, y] != 0)
 				{
 					field[x, y] = 1;
 				}
