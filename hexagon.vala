@@ -111,7 +111,6 @@ void new_line(int line_number, ref double x, ref double y, double size)
 	}
 }
 
-//FIXME некоторые аргументы не используются
 void find_hexagon_in_line(double x_start, double y_start, double size, double x_point, double y_point,
                           out int x_array, out bool result)
 {
@@ -127,7 +126,6 @@ void find_hexagon_in_line(double x_start, double y_start, double size, double x_
 	result = false;
 }
 
-//FIXME некоторые аргументы не используются
 void find_hexagon(double x_start, double y_start, double size, double x_point, double y_point,
                           out int x_array, out int y_array, out bool result)
 {

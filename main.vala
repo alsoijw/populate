@@ -93,9 +93,10 @@ public class PopulateGame : Gtk.Window
 					field[x, y] = 1;
 				}
 			}
-			else
+			/*FIXME это код для отладки.*/
+			else if(event.button == 2)
 			{
-				stdout.printf(enemy_field[x, y].to_string() + "\n");
+				make_move();//stdout.printf(@"$x $y\n");
 			}
 		}
 		return true;

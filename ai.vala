@@ -7,7 +7,7 @@ ArrayList<Point?> list;
 ArrayList<Point?> nearby_hex(int x, int y)
 {
 	var near = new ArrayList<Point?>();
-	if(y / 2 != y / 2.0)
+	if(y % 2 == 1)
 	{
 		near.add(Point(){x = x+1, y = y-1});
 		near.add(Point(){x = x+1, y = y  });
@@ -27,7 +27,7 @@ ArrayList<Point?> nearby_hex(int x, int y)
 	}
 	for(var i = 5; i > -1; i--)
 	{
-		if(!(if_exist(near[i].x, near[i].y)))
+		if(!(if_exist(near[i])))
 		{
 			near.remove_at(i);
 		}
@@ -35,39 +35,24 @@ ArrayList<Point?> nearby_hex(int x, int y)
 	return near;
 }
 
-/*void if_exist_set(int x, int y, int val)
+bool if_exist(Point p)
 {
-	if(x < field.length[0] && y < field.length[1] && x > -1 && y > -1)
-	{
-		field[x, y] = val;
-	}
-}*/
-
-bool if_exist(int x, int y)
-{
-	if(x < field.length[0] && y < field.length[1] && x > -1 && y > -1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return p.x < field.length[0] && p.y < field.length[1] && p.x > -1 && p.y > -1;
 }
 
-int number_neighbor_enemy(int x, int y, int val)
+void number_neighbor_enemy(int x, int y)
 {
-	//FIXME пояснить почему 6
 	int number = 0;
 	var nearby = nearby_hex(x, y);
 	foreach(var item in nearby)
 	{
+		//FIXME поздее появятся другие противники
 		if(field[item.x, item.y] == 2)
 		{
 			number++;
 		}
 	}
-	return number;
+	enemy_field[x, y] =  number;
 }
 
 void search()
@@ -77,7 +62,7 @@ void search()
 	{
 		for(var y = 0; y < field.length[1]; y++)
 		{
-			enemy_field[x, y] = number_neighbor_enemy(x, y, field[x, y]);
+			number_neighbor_enemy(x, y);
 		}
 	}
 }
@@ -108,6 +93,12 @@ void arry_max_enemy()
 			}
 		}
 	}
+}
+
+void make_move()
+{
+	var t = list[Random.int_range(0, list.size)];
+	field[t.x, t.y] = 3;
 }
 
 //FIXME заменить int x, int y  на эту структуру
