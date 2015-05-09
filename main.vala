@@ -84,11 +84,11 @@ public class PopulateGame : Gtk.Window
 		{
 			if(event.button == 1)
 			{
-				if(field[x, y] != 0 && field[x, y] != val)
+				if(field[x, y] == 1)
 				{
 					field[x, y] = val;
 				}
-				else if(field[x, y] != 0)
+				else if(field[x, y] == val)
 				{
 					field[x, y] = 1;
 				}

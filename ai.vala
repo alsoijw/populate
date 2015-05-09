@@ -58,13 +58,7 @@ void number_neighbor_enemy(int x, int y)
 void search()
 {
 	enemy_field = new int[field.length[0], field.length[1]];
-	for(var x = 0; x < field.length[0]; x++)
-	{
-		for(var y = 0; y < field.length[1]; y++)
-		{
-			number_neighbor_enemy(x, y);
-		}
-	}
+	for_each_ithem(number_neighbor_enemy);
 }
 
 /*Эта функция выдаёт все клетки, ход в которые будет максимально выгодным*/
@@ -91,6 +85,19 @@ void arry_max_enemy()
 					list.add(Point(){x = x, y = y});
 				}
 			}
+		}
+	}
+}
+
+delegate void Method(int x, int y);
+
+void for_each_ithem(Method method )
+{
+	for(var x = 0; x < field.length[0]; x++)
+	{
+		for(var y = 0; y < field.length[1]; y++)
+		{
+			method(x, y);
 		}
 	}
 }
