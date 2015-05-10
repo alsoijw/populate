@@ -101,7 +101,16 @@ public class PopulateGame : Gtk.Window
 			/*FIXME это код для отладки.*/
 			else if(event.button == 2)
 			{
-				make_move();//stdout.printf(@"$x $y\n");
+				point = Point(){x = x, y = y};
+				var t = through_cage(point);
+				foreach(var i in t)
+				{
+					if(field[i.x, i.y] == 1)
+					{
+						field[i.x, i.y] = 3;
+					}
+				}
+				field[point.x, point.y] = 3;
 			}
 		}
 		return true;

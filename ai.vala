@@ -5,6 +5,8 @@ public int[,] enemy_field;
 ArrayList<Point?> list;
 ArrayList<Point?> my_item;
 
+Point point;
+
 ArrayList<Point?> nearby_hex(int x, int y)
 {
 	var near = new ArrayList<Point?>();
@@ -166,6 +168,50 @@ void capture(Point point, int val)
 		}
 	}
 	field[point.x, point.y] = val;
+}
+
+ArrayList<Point?> through_cage(Point point)
+{
+	var near = new ArrayList<Point?>();
+	if(point.y % 2 == 0)
+	{
+		near.add(Point(){x = point.x-1, y = point.y-2});
+		near.add(Point(){x = point.x  , y = point.y-2});
+		near.add(Point(){x = point.x+1, y = point.y-2});
+		near.add(Point(){x = point.x+1, y = point.y-1});
+		near.add(Point(){x = point.x+2, y = point.y  });
+		near.add(Point(){x = point.x+1, y = point.y+1});
+		near.add(Point(){x = point.x+1, y = point.y+2});
+		near.add(Point(){x = point.x  , y = point.y+2});
+		near.add(Point(){x = point.x-1, y = point.y+2});
+		near.add(Point(){x = point.x-2, y = point.y+1});
+		near.add(Point(){x = point.x-2, y = point.y  });
+		near.add(Point(){x = point.x-2, y = point.y-1});
+
+	}
+	else
+	{
+		near.add(Point(){x = point.x-1, y = point.y-2});
+		near.add(Point(){x = point.x  , y = point.y-2});
+		near.add(Point(){x = point.x+1, y = point.y-2});
+		near.add(Point(){x = point.x+2, y = point.y-1});
+		near.add(Point(){x = point.x+2, y = point.y  });
+		near.add(Point(){x = point.x+2, y = point.y+1});
+		near.add(Point(){x = point.x+1, y = point.y+2});
+		near.add(Point(){x = point.x  , y = point.y+2});
+		near.add(Point(){x = point.x-1, y = point.y+2});
+		near.add(Point(){x = point.x-1, y = point.y+1});
+		near.add(Point(){x = point.x-2, y = point.y  });
+		near.add(Point(){x = point.x-1, y = point.y-1});
+	}
+	for(var i = 11; i > -1; i--)
+	{
+		if(!(if_exist(near[i])))
+		{
+			near.remove_at(i);
+		}
+	}
+	return near;
 }
 
 //FIXME заменить int x, int y  на эту структуру
