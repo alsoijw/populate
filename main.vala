@@ -78,7 +78,7 @@ public class PopulateGame : Gtk.Window
 		int y;
 		bool result;
 		const int val = 2;
-		find_hexagon(x_center_first, y_center_first, size, event.x, event.y,
+		find_hexagon(x_center_first, y_center_first, event.x, event.y,
 		             out x, out y, out result);
 		if(result)
 		{

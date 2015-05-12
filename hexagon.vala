@@ -33,10 +33,6 @@ void draw_hexagon_line(Context ctx, double centre_x, double centre_y, int number
 void draw_hexagon(Context ctx, double centre_x, double centre_y, int x, int y)
 {
 	ctx.save();
-	//
-	search();
-	//FIXME убрать лишнее
-	arry_max_enemy();
 	select_color(ctx, x, y);
 	ctx.new_path();
 	ctx.move_to(centre_x, centre_y + size);
@@ -79,7 +75,7 @@ void select_color(Context ctx, int x, int y)
 	}
 }
 
-bool contain_hexagon_point(double x_hexagon, double y_hexagon, double size, double x, double y)
+bool contain_hexagon_point(double x_hexagon, double y_hexagon, double x, double y)
 {
 	/*Шестиугольник ограничен тремя парами линий.
 	  Линии в паре параллельны, расстояние между ними одинаково.
@@ -101,7 +97,7 @@ bool contain_hexagon_point(double x_hexagon, double y_hexagon, double size, doub
 
 void new_line(int line_number, ref double x, ref double y, double size)
 {
-	if(line_number / 2 == line_number / 2.0)
+	if(line_number % 2 == 0)
 	{
 		move_point(ref x, ref y, 300.0, size);
 	}
@@ -111,12 +107,12 @@ void new_line(int line_number, ref double x, ref double y, double size)
 	}
 }
 
-void find_hexagon_in_line(double x_start, double y_start, double size, double x_point, double y_point,
+void find_hexagon_in_line(double x_start, double y_start, double x_point, double y_point,
                           out int x_array, out bool result)
 {
 	for(x_array = 0; x_array < field.length[0]; x_array++)
 	{
-		if(contain_hexagon_point(x_start, y_start, size, x_point, y_point))
+		if(contain_hexagon_point(x_start, y_start, x_point, y_point))
 		{
 			result = true;
 			return;
@@ -126,12 +122,12 @@ void find_hexagon_in_line(double x_start, double y_start, double size, double x_
 	result = false;
 }
 
-void find_hexagon(double x_start, double y_start, double size, double x_point, double y_point,
+void find_hexagon(double x_start, double y_start, double x_point, double y_point,
                           out int x_array, out int y_array, out bool result)
 {
 	for(y_array = 0; y_array < field.length[1]; y_array++)
 	{
-		find_hexagon_in_line(x_start, y_start, size, x_point, y_point, out x_array, out result);
+		find_hexagon_in_line(x_start, y_start, x_point, y_point, out x_array, out result);
 		if(result)
 		{
 			return;
