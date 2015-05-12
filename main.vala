@@ -125,7 +125,7 @@ public class PopulateGame : Gtk.Window
 		//FIXME m не очень хорошее имя
 		for(var m = 0; m < field.length[1]; m++)
 		{
-			draw_hexagon_line(ctx, x, y, size, field.length[0], m);
+			draw_hexagon_line(ctx, x, y, field.length[0], m);
 			new_line(m, ref x, ref y, size);
 		}
 		return true;

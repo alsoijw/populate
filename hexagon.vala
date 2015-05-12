@@ -21,16 +21,16 @@ void move_point(ref double x, ref double y, double angle, double size)
 	y = y - size * 2  * Math.sin(angle);
 }
 
-void draw_hexagon_line(Context ctx, double centre_x, double centre_y, double size, int number, int y)
+void draw_hexagon_line(Context ctx, double centre_x, double centre_y, int number, int y)
 {
 	for(var x = 0; x < number; x++)
 	{
-		draw_hexagon(ctx, centre_x, centre_y, size, x, y);
-		move_point(ref centre_x, ref centre_y, 0.0, size);
+		draw_hexagon(ctx, centre_x, centre_y, x, y);
+		centre_x += size * 2;
 	}
 }
 
-void draw_hexagon(Context ctx, double centre_x, double centre_y, double size, int x, int y)
+void draw_hexagon(Context ctx, double centre_x, double centre_y, int x, int y)
 {
 	ctx.save();
 	//
