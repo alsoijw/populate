@@ -30,15 +30,15 @@ public class PopulateGame : Gtk.Window
 		field = new int[8,10];
 		field[0, 3] = 3;
 		field[1, 1] = 1;
-		field[1, 2] = 1;
+		field[1, 2] = 3;
 		field[1, 3] = 1;
-		field[1, 4] = 1;
+		field[1, 4] = 3;
 		field[1, 5] = 1;
 		field[2, 0] = 1;
 		field[2, 1] = 1;
 		field[2, 2] = 1;
 		field[2, 3] = 1;
-		field[2, 4] = 1;
+		field[2, 4] = 3;
 		field[2, 5] = 1;
 		field[2, 6] = 1;
 		field[3, 0] = 1;
@@ -111,6 +111,11 @@ public class PopulateGame : Gtk.Window
 					}
 				}
 				field[point.x, point.y] = 3;
+			}
+			//FIXME код для отладки
+			else if(event.button == 3)
+			{
+				protection();//stdout.printf(@"$x $y\n");
 			}
 		}
 		return true;
