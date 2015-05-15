@@ -8,7 +8,7 @@ int max_my_near;
  */
 void protection()
 {
-	max_my_near = 0;
+	max_my_near = 1;
 	protect_it = new ArrayList<Point?>();
 	for_each_item(number_my_near);
 	if(protect_it.size > 0)
@@ -32,18 +32,15 @@ void number_my_near(int x, int y)
 				number++;
 			}
 		}
-		if(number > 0)
+		if(number == max_my_near)
 		{
-			if(number == max_my_near)
-			{
-				protect_it.add(Point(){x = x, y = y});
-			}
-			else if(number > max_my_near)
-			{
-				protect_it.clear();
-				max_my_near = number;
-				protect_it.add(Point(){x = x, y = y});
-			}
+			protect_it.add(Point(){x = x, y = y});
+		}
+		else if(number > max_my_near)
+		{
+			protect_it.clear();
+			max_my_near = number;
+			protect_it.add(Point(){x = x, y = y});
 		}
 	}
 }
