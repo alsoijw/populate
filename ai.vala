@@ -1,11 +1,9 @@
 using Gee;
 
 public int[,] enemy_field;
-int[,] my_cell;
 //FIXME переименовать
 ArrayList<Point?> list;
 ArrayList<Point?> my_item;
-ArrayList<Point?> protect_it;
 
 Point point;
 
@@ -214,70 +212,6 @@ ArrayList<Point?> through_cage(Point point)
 		}
 	}
 	return near;
-}
-
-/*
- * Поиск своих уязвимых клеток
- */
-void protection()
-{
-	my_cell = new int[field.length[0], field.length[1]];
-	for_each_item(number_my_cell_nearby);
-	select_to_protect();
-	if(protect_it.size > 0)
-	{
-		var t = protect_it[Random.int_range(0, protect_it.size)];
-		//FIXME 3 - магическое число
-		capture(t, 3);
-	}
-}
-
-/**
- * Поиск ячеек граничащих с наибольшим количеством своих
- */
-//FIXME очень похожа на number_neighbor_enemy
-void number_my_cell_nearby(int x, int y)
-{
-	int number = 0;
-	var nearby = nearby_hex(x, y);
-	foreach(var item in nearby)
-	{
-		if(field[item.x, item.y] == 3)
-		{
-			number++;
-		}
-	}
-	my_cell[x, y] =  number;
-}
-
-/**
- *Выбор клеток которые нужно занять для защиты
- */
-//FIXME очень похожа на arry_max_enemy
-void select_to_protect()
-{
-	int max = 1;
-	protect_it = new ArrayList<Point?>();
-	for(var x = 0; x < field.length[0]; x++)
-	{
-		for(var y = 0; y < field.length[1]; y++)
-		{
-			//клетку можно включать в список только если она пуста
-			if(field[x, y] == 1)
-			{
-				if(my_cell[x, y] == max)
-				{
-					protect_it.add(Point(){x = x, y = y});
-				}
-				else if(my_cell[x, y] > max)
-				{
-					protect_it.clear();
-					max = my_cell[x, y];
-					protect_it.add(Point(){x = x, y = y});
-				}
-			}
-		}
-	}
 }
 
 //FIXME заменить int x, int y  на эту структуру
