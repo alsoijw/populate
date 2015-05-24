@@ -120,6 +120,44 @@ ArrayList<Point?> through_cage(Point point)
 	return near;
 }
 
+void add_point_to_list(ArrayList<Point?> list, Point point, ref int max, int number)
+{
+	if(number == max)
+	{
+		list.add(point);
+	}
+	else if(number > max)
+	{
+		list.clear();
+		max = number;
+		list.add(point);
+	}
+}
+
+void make_move()
+{
+	attack();
+	protection();
+	if(max_my_near < max_enemy_near)
+	{
+		select_move(list);
+	}
+	else
+	{
+		select_move(protect_it);
+	}
+}
+
+void select_move(ArrayList<Point?> list)
+{
+	if(list.size > 0)
+	{
+		var t = list[Random.int_range(0, list.size)];
+		//FIXME 3 - магическое число
+		capture(t, 3);
+	}
+}
+
 //FIXME заменить int x, int y  на эту структуру
 struct Point
 {

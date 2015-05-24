@@ -11,12 +11,6 @@ void protection()
 	max_my_near = 1;
 	protect_it = new ArrayList<Point?>();
 	for_each_item(number_my_near);
-	if(protect_it.size > 0)
-	{
-		var t = protect_it[Random.int_range(0, protect_it.size)];
-		//FIXME 3 - магическое число
-		capture(t, 3);
-	}
 }
 
 void number_my_near(int x, int y)
@@ -32,16 +26,7 @@ void number_my_near(int x, int y)
 				number++;
 			}
 		}
-		if(number == max_my_near)
-		{
-			protect_it.add(Point(){x = x, y = y});
-		}
-		else if(number > max_my_near)
-		{
-			protect_it.clear();
-			max_my_near = number;
-			protect_it.add(Point(){x = x, y = y});
-		}
+		add_point_to_list(protect_it, Point(){x = x, y = y}, ref max_my_near, number);
 	}
 }
 

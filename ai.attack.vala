@@ -20,16 +20,7 @@ void number_neighbor_enemy(int x, int y)
 				number++;
 			}
 		}
-		if(number == max_enemy_near)
-		{
-			list.add(Point(){x = x, y = y});
-		}
-		else if(number > max_enemy_near)
-		{
-			list.clear();
-			max_enemy_near = number;
-			list.add(Point(){x = x, y = y});
-		}
+		add_point_to_list(list, Point(){x = x, y = y}, ref max_enemy_near, number);
 	}
 }
 
@@ -52,7 +43,7 @@ void find_all_my_item(int x, int y)
 	}
 }
 
-void make_move()
+void attack()
 {
 	max_enemy_near = 1;
 	my_item = new ArrayList<Point?>();
@@ -65,11 +56,5 @@ void make_move()
 		{
 			list.remove_at(i);
 		}
-	}
-	if(list.size > 0)
-	{
-		var t = list[Random.int_range(0, list.size)];
-		//FIXME 3 - магическое число
-		capture(t, 3);
 	}
 }
