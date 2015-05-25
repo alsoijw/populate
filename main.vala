@@ -115,7 +115,7 @@ public class PopulateGame : Gtk.Window
 			//FIXME код для отладки
 			else if(event.button == 3)
 			{
-				make_move();
+				find();
 			}
 		}
 		return true;

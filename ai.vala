@@ -134,20 +134,6 @@ void add_point_to_list(ArrayList<Point?> list, Point point, ref int max, int num
 	}
 }
 
-void make_move()
-{
-	attack();
-	protection();
-	if(max_my_near < max_enemy_near)
-	{
-		select_move(list);
-	}
-	else
-	{
-		select_move(protect_it);
-	}
-}
-
 void select_move(ArrayList<Point?> list)
 {
 	if(list.size > 0)
