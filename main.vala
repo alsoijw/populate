@@ -108,6 +108,21 @@ public class PopulateGame : Gtk.Window
 				}
 			}
 			//FIXME код для отладки
+			else if(event.button == 2)
+			{
+				if(field[x, y] == 3)
+				{
+					field[x, y] = 1;
+				}
+				else if(field[x, y] == 1)
+				{
+					field[x, y] = 2;
+				}
+				else if(field[x, y] == 2)
+				{
+					field[x, y] = 1;
+				}
+			}
 			else if(event.button == 3)
 			{
 				find();

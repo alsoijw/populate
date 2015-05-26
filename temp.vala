@@ -6,7 +6,8 @@ ArrayList<Point?> all_cell;
 
 void find()
 {
-	max_my = 1;
+	max_my = 0;
+	max_enemy = 0;
 	all_cell = new ArrayList<Point?>();
 	for_each_item(can);
 	if(all_cell.size > 0)
@@ -36,19 +37,36 @@ void can(int x, int y)
 		if(my > 0)
 		{
 			//add_point_to_list(all_cell, Point(){x = x, y = y}, ref max, my + enemy);
-			if(max_enemy < enemy || (max_my < my && max_enemy == enemy))
+			if(max_enemy == 0 && enemy > 0)
 			{
 				all_cell.clear();
-				max_my = my;
-				max_enemy = enemy;
-				all_cell.add(Point(){x = x, y = y});
+				add_point_to_list(all_cell, Point(){x = x, y = y}, ref max_enemy, enemy);
 			}
-			else if(max_enemy == enemy)
+			else if(max_enemy == 0)
 			{
-				all_cell.add(Point(){x = x, y = y});
+				add_point_to_list(all_cell, Point(){x = x, y = y}, ref max_my, my);
+			}
+			else
+			{
+				add_point_to_list(all_cell, Point(){x = x, y = y}, ref max_enemy, enemy);
 			}
 		}
 	}
 }
+
+void add_point_to_list(ArrayList<Point?> list, Point point, ref int max, int number)
+{
+	if(max < number)
+	{
+		list.clear();
+		max = number;
+		list.add(point);
+	}
+	else if(max == number)
+	{
+		list.add(point);
+	}
+}
+
 
 
