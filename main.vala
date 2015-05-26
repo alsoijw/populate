@@ -1,3 +1,4 @@
+using Gee;
 using Gtk;
 using Cairo;
 
@@ -7,7 +8,9 @@ double y_center_first;
 double size;
 //FIXME надо переименовать
 public int[,] field;
-//Point point;
+Point point;
+ArrayList<Point?> near;
+bool selected;
 
 public class PopulateGame : Gtk.Window
 {
@@ -60,7 +63,7 @@ public class PopulateGame : Gtk.Window
 		field[5, 1] = 1;
 		field[5, 2] = 1;
 		field[5, 3] = 1;
-		field[5, 4] = 1;
+		field[5, 4] = 2;
 		field[5, 5] = 1;
 		field[5, 6] = 1;
 		field[6, 2] = 1;
@@ -85,24 +88,24 @@ public class PopulateGame : Gtk.Window
 		{
 			if(event.button == 1)
 			{
-				if(field[x, y] == 1)
+				if(field[x, y] == 2)
 				{
-					field[x, y] = val;
+					point.x = x;
+					point.y = y;
+					selected = true;
+					near = nearby_hex(point.x, point.y);
 				}
-				//FIXME закоментированое раскоментирвать, остальное убрать
-				/*else if(field[x, y] == val)
+				else if(contain_point(Point(){x = x, y = y}, near) && field[x, y] == 1)
 				{
-					field[x, y] = 1;
-				}*/
-				else if(field[x, y] != 0)
-				{
-					field[x, y] = 1;
+					capture(Point(){x = x, y = y}, 2);
+					selected = false;
+					near.clear();
 				}
-			}
-			/*FIXME это код для отладки.*/
-			else if(event.button == 2)
-			{
-				//var point = Point(){x = x, y = y};
+				else
+				{
+					selected = false;
+					near.clear();
+				}
 			}
 			//FIXME код для отладки
 			else if(event.button == 3)

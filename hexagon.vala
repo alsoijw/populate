@@ -48,14 +48,18 @@ void draw_hexagon(Context ctx, double centre_x, double centre_y, int x, int y)
 
 void select_color(Context ctx, int x, int y)
 {
-	var point = Point(){x = x, y = y};
-	/*if(temp2(point))
+	var temp = Point(){x = x, y = y};
+	if(selected && contain_point(temp, near) && field[temp.x, temp.y] == 1)
 	{
-		ctx.set_source_rgb(0xF6 / 255.0, 0x54 / 255.0, 0x6A / 255.0);
+		ctx.set_source_rgb(0xB3 / 255.0, 0xDC / 255.0, 0x70 / 255.0);
 	}
-	else*/ if(field[x,y] == 0)
+	else if(field[x,y] == 0)
 	{
 		ctx.set_source_rgba(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0, 0);
+	}
+	else if(field[x,y] == 1)
+	{
+		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
 	}
 	else if(field[x,y] == 2)
 	{
@@ -65,14 +69,7 @@ void select_color(Context ctx, int x, int y)
 	{
 		ctx.set_source_rgb(0x33 / 255.0, 0x99 / 255.0, 0xFF / 255.0);
 	}
-	else if(field[x,y] == 1)
-	{
-		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
-	}
-	else
-	{
-		ctx.set_source_rgb(0x00, 0x00, 0x00);
-	}
+
 }
 
 bool contain_hexagon_point(double x_hexagon, double y_hexagon, double x, double y)
