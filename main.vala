@@ -7,6 +7,7 @@ double y_center_first;
 double size;
 //FIXME надо переименовать
 public int[,] field;
+//Point point;
 
 public class PopulateGame : Gtk.Window
 {
@@ -101,16 +102,7 @@ public class PopulateGame : Gtk.Window
 			/*FIXME это код для отладки.*/
 			else if(event.button == 2)
 			{
-				point = Point(){x = x, y = y};
-				var t = through_cage(point);
-				foreach(var i in t)
-				{
-					if(field[i.x, i.y] == 1)
-					{
-						field[i.x, i.y] = 3;
-					}
-				}
-				field[point.x, point.y] = 3;
+				//var point = Point(){x = x, y = y};
 			}
 			//FIXME код для отладки
 			else if(event.button == 3)

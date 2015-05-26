@@ -1,11 +1,12 @@
 using Gee;
 
-int max;
+int max_my;
+int max_enemy;
 ArrayList<Point?> all_cell;
 
 void find()
 {
-	max = 1;
+	max_my = 1;
 	all_cell = new ArrayList<Point?>();
 	for_each_item(can);
 	if(all_cell.size > 0)
@@ -16,23 +17,37 @@ void find()
 
 void can(int x, int y)
 {
-	var near = nearby_hex(x, y);
-	var my = 0;
-	var enemy = 0;
-	for(var i = 0; i < near.size; i++)
+	if(field[x, y] == 1)
 	{
-		if(field[near[i].x, near[i].y] == 2)
+		var near = nearby_hex(x, y);
+		var my = 0;
+		var enemy = 0;
+		for(var i = 0; i < near.size; i++)
 		{
-			enemy++;
+			if(field[near[i].x, near[i].y] == 2)
+			{
+				enemy++;
+			}
+			else if(field[near[i].x, near[i].y] == 3)
+			{
+				my++;
+			}
 		}
-		else if(field[near[i].x, near[i].y] == 3)
+		if(my > 0)
 		{
-			my++;
+			//add_point_to_list(all_cell, Point(){x = x, y = y}, ref max, my + enemy);
+			if(max_enemy < enemy || (max_my < my && max_enemy == enemy))
+			{
+				all_cell.clear();
+				max_my = my;
+				max_enemy = enemy;
+				all_cell.add(Point(){x = x, y = y});
+			}
+			else if(max_enemy == enemy)
+			{
+				all_cell.add(Point(){x = x, y = y});
+			}
 		}
-	}
-	if(my > 0)
-	{
-		add_point_to_list(all_cell, Point(){x = x, y = y}, ref max, my + enemy);
 	}
 }
 

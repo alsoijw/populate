@@ -1,7 +1,5 @@
 using Gee;
 
-Point point;
-
 ArrayList<Point?> nearby_hex(int x, int y)
 {
 	var near = new ArrayList<Point?>();
@@ -118,20 +116,6 @@ ArrayList<Point?> through_cage(Point point)
 		}
 	}
 	return near;
-}
-
-void add_point_to_list(ArrayList<Point?> list, Point point, ref int max, int number)
-{
-	if(number == max)
-	{
-		list.add(point);
-	}
-	else if(number > max)
-	{
-		list.clear();
-		max = number;
-		list.add(point);
-	}
 }
 
 void select_move(ArrayList<Point?> list)
