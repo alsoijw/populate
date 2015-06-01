@@ -128,6 +128,52 @@ void select_move(ArrayList<Point?> list)
 	}
 }
 
+string how_win()
+{
+	int x = 0;
+	int y = 0;
+	int player = 0;
+	int bot = 0;
+	for_each_item((x, y) => {
+		switch(field[x, y])
+		{
+			case 2:
+				player++;
+				break;
+			case 3:
+				bot++;
+				break;
+		}
+	});
+	if(bot > player)
+	{
+		return "ИИ выиграл";
+	}
+	else if(bot < player)
+	{
+		return "Игрок выиграл";
+	}
+	else
+	{
+		return "Ничья";
+	}
+}
+
+bool can_make_move()
+{
+	for(var x = 0; x < field.length[0]; x++)
+	{
+		for(var y = 0; y < field.length[1]; y++)
+		{
+			if(field[x, y] == 1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 //FIXME заменить int x, int y  на эту структуру
 struct Point
 {

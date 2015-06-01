@@ -11,6 +11,8 @@ public int[,] field;
 Point point;
 ArrayList<Point?> near;
 bool selected;
+bool can_bot_make_move;
+int wait;
 
 public class PopulateGame : Gtk.Window
 {
@@ -25,8 +27,9 @@ public class PopulateGame : Gtk.Window
 		button_press_event.connect(temp);
 		x_center_first = 20;
 		y_center_first = 30;
-		size = 18;
+		size = 24;
 		create_field();
+		near = new ArrayList<Point?>();
 	}
 	
 	private void create_field()
@@ -98,6 +101,7 @@ public class PopulateGame : Gtk.Window
 				else if(contain_point(Point(){x = x, y = y}, near) && field[x, y] == 1)
 				{
 					capture(Point(){x = x, y = y}, 2);
+					can_bot_make_move = true;
 					selected = false;
 					near.clear();
 				}
@@ -120,7 +124,7 @@ public class PopulateGame : Gtk.Window
 				}
 				else if(field[x, y] == 2)
 				{
-					field[x, y] = 1;
+					field[x, y] = 3;
 				}
 			}
 			else if(event.button == 3)
@@ -143,7 +147,40 @@ public class PopulateGame : Gtk.Window
 			draw_hexagon_line(ctx, x, y, field.length[0], m);
 			new_line(m, ref x, ref y, size);
 		}
+		if(can_bot_make_move)
+		{
+			can_bot_make_move = false;
+			find();
+			if(!can_player_make_move() && can_make_move())
+			{
+				wait = 3;
+			}
+		}
+		else if(!can_make_move())
+			{
+				draw_text(ctx, how_win());
+			}
+		if(wait > 0)
+		{
+			wait--;
+			if(wait == 0)
+			{
+				can_bot_make_move = true;
+			}
+		}
 		return true;
+	}
+	
+	public void draw_text(Context ctx, string utf8)
+	{
+		ctx.select_font_face ("Sans", Cairo.FontSlant.NORMAL, Cairo.FontWeight.NORMAL);
+		ctx.set_font_size (52.0);
+		Cairo.TextExtents extents;
+		ctx.text_extents (utf8, out extents);
+		double x = 200.0-(extents.width/2 + extents.x_bearing);
+		double y = 250.0-(extents.height/2 + extents.y_bearing);
+		ctx.move_to (x, y);
+		ctx.show_text (utf8);
 	}
 }
 
@@ -151,7 +188,6 @@ int main(string[] args)
 {
 	Gtk.init(ref args);
 	cairo_sample = new PopulateGame();
-	nearby_hex(2, 2);
 	cairo_sample.show_all();
 	Timeout.add(17,()=>{cairo_sample.queue_draw();return true;});
 	Gtk.main();

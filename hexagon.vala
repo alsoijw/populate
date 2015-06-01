@@ -69,7 +69,10 @@ void select_color(Context ctx, int x, int y)
 	{
 		ctx.set_source_rgb(0x33 / 255.0, 0x99 / 255.0, 0xFF / 255.0);
 	}
-
+	else
+	{
+		ctx.set_source_rgb(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0);
+	}
 }
 
 bool contain_hexagon_point(double x_hexagon, double y_hexagon, double x, double y)

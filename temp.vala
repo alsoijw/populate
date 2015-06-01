@@ -3,6 +3,7 @@ using Gee;
 int max_my;
 int max_enemy;
 ArrayList<Point?> all_cell;
+int number_cell_player_make_move;
 
 void find()
 {
@@ -66,6 +67,28 @@ void add_point_to_list(ArrayList<Point?> list, Point point, ref int max, int num
 	{
 		list.add(point);
 	}
+}
+
+bool can_player_make_move()
+{
+	for(var x = 0; x < field.length[0]; x++)
+	{
+		for(var y = 0; y < field.length[1]; y++)
+		{
+			if(field[x, y] == 2)
+			{
+				var near = nearby_hex(x, y);
+				foreach(var cell in near)
+				{
+					if(field[cell.x, cell.y] == 1)
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
 }
 
 
