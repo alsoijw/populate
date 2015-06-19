@@ -13,6 +13,7 @@ ArrayList<Point?> near;
 bool selected;
 bool can_bot_make_move;
 int wait;
+int number_cell;
 
 public class PopulateGame : Gtk.Window
 {
@@ -21,11 +22,13 @@ public class PopulateGame : Gtk.Window
 		this.title = "Populate game";
 		this.destroy.connect(exit);
 		set_default_size(400, 500);
+		resizable = false;
 		var drawing_area = new DrawingArea();
+		drawing_area.set_size_request(400, 500);
 		drawing_area.draw.connect(on_draw);
 		add(drawing_area);
 		button_press_event.connect(temp);
-		x_center_first = 20;
+		x_center_first = 60;
 		y_center_first = 30;
 		size = 24;
 		create_field();
@@ -37,15 +40,15 @@ public class PopulateGame : Gtk.Window
 		field = new int[8,10];
 		field[0, 3] = 3;
 		field[1, 1] = 1;
-		field[1, 2] = 3;
+		field[1, 2] = 1;
 		field[1, 3] = 1;
-		field[1, 4] = 3;
+		field[1, 4] = 1;
 		field[1, 5] = 1;
 		field[2, 0] = 1;
 		field[2, 1] = 1;
 		field[2, 2] = 1;
 		field[2, 3] = 1;
-		field[2, 4] = 3;
+		field[2, 4] = 1;
 		field[2, 5] = 1;
 		field[2, 6] = 1;
 		field[3, 0] = 1;
@@ -72,6 +75,16 @@ public class PopulateGame : Gtk.Window
 		field[6, 2] = 1;
 		field[6, 3] = 1;
 		field[6, 4] = 1;
+		for(var y = 0; y < field.length[1]; y++)
+		{
+			for(var x = 0; x < field.length[0]; x++)
+			{
+				if(field[x, y] != 0)
+				{
+					number_cell++;
+				}
+			}
+		}
 	}
 	
 	private void exit()
@@ -137,7 +150,7 @@ public class PopulateGame : Gtk.Window
 	
 	private bool on_draw(Widget da, Context ctx)
 	{
-		
+		plot_graph(ctx);
 		ctx.set_source_rgb(0, 0, 0);
 		var x = x_center_first;
 		var y = y_center_first;

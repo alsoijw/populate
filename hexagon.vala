@@ -46,6 +46,27 @@ void draw_hexagon(Context ctx, double centre_x, double centre_y, int x, int y)
 	ctx.restore();
 }
 
+//FIXME эта и следующая функция очень похожи
+void select_color_2(Context ctx, int cell)
+{
+	if(cell == 1)
+	{
+		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
+	}
+	else if(cell == 2)
+	{
+		ctx.set_source_rgb(0x92 / 255.0, 0xCD / 255.0, 0x32 / 255.0);
+	}
+	else if(cell == 3)
+	{
+		ctx.set_source_rgb(0x33 / 255.0, 0x99 / 255.0, 0xFF / 255.0);
+	}
+	else
+	{
+		ctx.set_source_rgb(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0);
+	}
+}
+
 void select_color(Context ctx, int x, int y)
 {
 	var temp = Point(){x = x, y = y};

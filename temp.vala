@@ -13,7 +13,7 @@ void find()
 	for_each_item(can);
 	if(all_cell.size > 0)
 	{
-		select_move(all_cell);
+		capture(all_cell[Random.int_range(0, all_cell.size)], 3);
 	}
 }
 

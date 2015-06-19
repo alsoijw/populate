@@ -1,4 +1,60 @@
 using Gee;
+using Cairo;
+
+void number_cell_player(out int empty, out int player, out int first_bot)
+{
+	empty = 0;
+	player = 0;
+	first_bot = 0;
+	for(var y = 0; y < field.length[1]; y++)
+	{
+		for(var x = 0; x < field.length[0]; x++)
+		{
+			if(field[x, y] == 1)
+			{
+				empty++;
+			}
+			else if(field[x, y] == 2)
+			{
+				player++;
+			}
+			else if(field[x, y] == 3)
+			{
+				first_bot++;
+			}
+		}
+	}
+}
+
+void draw_item(Context ctx, int cell, int number, ref double offset)
+{
+	ctx.save();
+	select_color_2(ctx, cell);
+	//FIXME 250 магическое число
+	var y = number / (double)number_cell * 250;
+	ctx.new_path();
+	ctx.move_to(5, offset);
+	ctx.rel_line_to(40, 0);
+	//FIXME 250 магическое число
+	ctx.rel_line_to(0, y);
+	ctx.rel_line_to(-40, 0);
+	ctx.close_path();
+	ctx.fill();
+	ctx.restore();
+	offset += y;
+}
+
+void plot_graph(Context ctx)
+{
+	int empty;
+	int player;
+	int first_bot;
+	number_cell_player(out empty, out player, out first_bot);
+	var offset = 5.0;
+	draw_item(ctx, 1, empty, ref offset);
+	draw_item(ctx, 2, player, ref offset);
+	draw_item(ctx, 3, first_bot, ref offset);
+}
 
 ArrayList<Point?> nearby_hex(int x, int y)
 {
@@ -118,15 +174,6 @@ ArrayList<Point?> through_cage(Point point)
 	return near;
 }
 
-void select_move(ArrayList<Point?> list)
-{
-	if(list.size > 0)
-	{
-		var t = list[Random.int_range(0, list.size)];
-		//FIXME 3 - магическое число
-		capture(t, 3);
-	}
-}
 
 string how_win()
 {
