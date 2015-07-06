@@ -4,8 +4,7 @@ build () {
 }
 case "$1" in
 	"do")
-		build
-		./populate
+		build && ./populate
 		;;
 	"make")
 		build
