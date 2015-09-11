@@ -17,22 +17,58 @@ int number_cell;
 
 public class PopulateGame : Gtk.Window
 {
+	private DrawingArea drawing_area;
+	
+	private MenuItem play;
+	private MenuItem exit;
+	
+	private GameMode _game_mode;
+	private GameMode game_mode {
+		get { return _game_mode; }
+		set {
+				if(_game_mode != value) {
+					_game_mode = value;
+					if(_game_mode == GameMode.Game) {
+						drawing_area.draw.disconnect(draw_menu);
+						button_press_event.disconnect(menu_mouse);
+						drawing_area.draw.connect(on_draw);
+						button_press_event.connect(temp);
+						create_field();
+					} else if (_game_mode == GameMode.Menu) {
+						drawing_area.draw.disconnect(on_draw);
+						button_press_event.disconnect(end_game_mouse);
+						drawing_area.draw.connect(draw_menu);
+						button_press_event.connect(menu_mouse);
+					} else if (_game_mode == GameMode.EndGame) {
+						button_press_event.disconnect(temp);
+						button_press_event.connect(end_game_mouse);
+					}
+				}
+			}
+	}
+	
+	private enum GameMode {
+		init,
+		Menu,
+		Game,
+		EndGame
+	}
+	
 	public PopulateGame()
 	{
 		this.title = "Populate game";
-		this.destroy.connect(exit);
+		this.destroy.connect(exit1);
 		set_default_size(400, 500);
 		resizable = false;
-		var drawing_area = new DrawingArea();
+		drawing_area = new DrawingArea();
 		drawing_area.set_size_request(400, 500);
-		drawing_area.draw.connect(on_draw);
 		add(drawing_area);
-		button_press_event.connect(temp);
 		x_center_first = 60;
 		y_center_first = 30;
 		size = 24;
 		create_field();
 		near = new ArrayList<Point?>();
+		game_mode = GameMode.Menu;
 	}
 	
 	private void create_field()
@@ -40,7 +76,7 @@ public class PopulateGame : Gtk.Window
 		level1();
 	}
 	
-	private void exit()
+	private void exit1()
 	{
 		Gtk.main_quit();
 	}
@@ -125,6 +161,7 @@ public class PopulateGame : Gtk.Window
 		else if(!can_make_move())
 			{
 				draw_text(ctx, how_win());
+				game_mode = GameMode.EndGame;
 			}
 		if(wait > 0)
 		{
@@ -147,6 +184,34 @@ public class PopulateGame : Gtk.Window
 		double y = 250.0-(extents.height/2 + extents.y_bearing);
 		ctx.move_to (x, y);
 		ctx.show_text (utf8);
+	}
+	
+	private bool draw_menu(Widget da, Context ctx) {
+		//FIXME избавится от постоянного создания.
+		play = new MenuItem("Играть", ctx, 1);
+		exit = new MenuItem("Выход", ctx, 0);
+		int x;int y;Gdk.ModifierType mask;
+		var display = Gdk.Display.get_default();
+		var device_manager = display.get_device_manager();
+		var device = device_manager.get_client_pointer();
+		get_root_window().get_device_position (device, out x, out y, out mask);
+		play.draw_text(ctx);
+		exit.draw_text(ctx);
+		return true;
+	}
+	
+	private bool menu_mouse(Gdk.EventButton event) {
+		if(play.contain_point(event.x, event.y)) {
+			game_mode = GameMode.Game;
+		} else if(exit.contain_point(event.x, event.y)) {
+			close();
+		}
+		return true;
+	}
+	
+	private bool end_game_mouse(Gdk.EventButton event) {
+		game_mode = GameMode.Menu;
+		return true;
 	}
 }
 
