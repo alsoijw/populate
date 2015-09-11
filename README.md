@@ -16,5 +16,5 @@ Description: the playing field is made up of hexagons. You can choose any of you
 
 ## Building/Построение ##
 
- 1. `make`
+ 1. `./do do`
 
