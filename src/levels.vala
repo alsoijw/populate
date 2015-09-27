@@ -43,6 +43,14 @@ void level1()
 
 void level_loaded()
 {
+	cells = new Cell[8,10];
+	for(var y = 0; y < cells.length[1]; y++)
+	{
+		for(var x = 0; x < cells.length[0]; x++)
+		{
+			cells[x, y] = new Cell(x, y);
+		}
+	}
 	number_cell = 0;
 	for(var y = 0; y < field.length[1]; y++)
 	{

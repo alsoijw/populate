@@ -8,6 +8,7 @@ double y_center_first;
 double size;
 //FIXME надо переименовать
 public int[,] field;
+public Cell[,] cells;
 Point point;
 ArrayList<Point?> near;
 bool selected;
@@ -87,8 +88,7 @@ public class PopulateGame : Gtk.Window
 		int y;
 		bool result;
 		const int val = 2;
-		find_hexagon(x_center_first, y_center_first, event.x, event.y,
-		             out x, out y, out result);
+		find_hexagon(event.x, event.y, out x, out y, out result);
 		if(result)
 		{
 			if(event.button == 1)
@@ -141,13 +141,12 @@ public class PopulateGame : Gtk.Window
 	{
 		plot_graph(ctx);
 		ctx.set_source_rgb(0, 0, 0);
-		var x = x_center_first;
-		var y = y_center_first;
-		//FIXME m не очень хорошее имя
-		for(var m = 0; m < field.length[1]; m++)
+		for(var y1 = 0; y1 < cells.length[1]; y1++)
 		{
-			draw_hexagon_line(ctx, x, y, field.length[0], m);
-			new_line(m, ref x, ref y, size);
+			for(var x1 = 0; x1 < cells.length[0]; x1++)
+			{
+				cells[x1, y1].draw(ctx);
+			}
 		}
 		if(can_bot_make_move)
 		{

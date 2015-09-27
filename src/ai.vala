@@ -167,7 +167,7 @@ bool can_make_move()
 }
 
 //FIXME заменить int x, int y  на эту структуру
-struct Point
+public struct Point
 {
 	public int x;
 	public int y;
