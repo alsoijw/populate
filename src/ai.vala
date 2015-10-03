@@ -137,11 +137,11 @@ string how_win()
 				break;
 		}
 	});
-	if(bot > player)
+	if(bot > player || player == 0)
 	{
 		return "ИИ выиграл";
 	}
-	else if(bot < player)
+	else if(bot < player || bot == 0)
 	{
 		return "Игрок выиграл";
 	}

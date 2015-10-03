@@ -13,7 +13,6 @@ Point point;
 ArrayList<Point?> near;
 bool selected;
 bool can_bot_make_move;
-int wait;
 int number_cell;
 
 public class PopulateGame : Gtk.Window
@@ -48,11 +47,20 @@ public class PopulateGame : Gtk.Window
 			}
 	}
 	
+	private HowMakeMove how_make_move;
+	private int wait;
+	
 	private enum GameMode {
 		init,
 		Menu,
 		Game,
 		EndGame
+	}
+	
+	private enum HowMakeMove {
+		User,
+		FirstBot,
+		Wait
 	}
 	
 	public PopulateGame()
@@ -75,6 +83,7 @@ public class PopulateGame : Gtk.Window
 	private void create_field()
 	{
 		level1();
+		how_make_move = HowMakeMove.User;
 	}
 	
 	private void exit1()
@@ -106,6 +115,7 @@ public class PopulateGame : Gtk.Window
 					can_bot_make_move = true;
 					selected = false;
 					near.clear();
+					how_make_move = HowMakeMove.FirstBot;
 				}
 				else
 				{
@@ -148,26 +158,23 @@ public class PopulateGame : Gtk.Window
 				cells[x1, y1].draw(ctx);
 			}
 		}
-		if(can_bot_make_move)
-		{
-			can_bot_make_move = false;
-			find();
-			if(!can_player_make_move() && can_make_move())
-			{
-				wait = 3;
+		if(how_make_move == HowMakeMove.User) {
+			if(!can_player_make_move(2)) {
+				how_make_move = HowMakeMove.Wait;
+				wait = 4;
 			}
-		}
-		else if(!can_make_move())
-			{
-				draw_text(ctx, how_win());
+		} else if(how_make_move == HowMakeMove.FirstBot) {
+			if(can_player_make_move(3)) {
+				find();
+				how_make_move = HowMakeMove.User;
+			} else {
 				game_mode = GameMode.EndGame;
+				draw_text(ctx, how_win());
 			}
-		if(wait > 0)
-		{
+		} else { //HowMakeMove.Wait
 			wait--;
-			if(wait == 0)
-			{
-				can_bot_make_move = true;
+			if(wait == 0) {
+				how_make_move = HowMakeMove.FirstBot;
 			}
 		}
 		return true;
