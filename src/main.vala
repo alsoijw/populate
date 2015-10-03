@@ -3,16 +3,12 @@ using Gtk;
 using Cairo;
 
 PopulateGame cairo_sample;
-double x_center_first;
-double y_center_first;
-double size;
 //FIXME надо переименовать
 public int[,] field;
 public Cell[,] cells;
 Point point;
 ArrayList<Point?> near;
 bool selected;
-bool can_bot_make_move;
 int number_cell;
 
 public class PopulateGame : Gtk.Window {
@@ -70,9 +66,6 @@ public class PopulateGame : Gtk.Window {
 		drawing_area = new DrawingArea();
 		drawing_area.set_size_request(400, 500);
 		add(drawing_area);
-		x_center_first = 60;
-		y_center_first = 30;
-		size = 24;
 		create_field();
 		near = new ArrayList<Point?>();
 		game_mode = GameMode.Menu;
@@ -91,7 +84,6 @@ public class PopulateGame : Gtk.Window {
 		int x;
 		int y;
 		bool result;
-		const int val = 2;
 		find_hexagon(event.x, event.y, out x, out y, out result);
 		if(result) {
 			if(event.button == 1) {
@@ -102,7 +94,6 @@ public class PopulateGame : Gtk.Window {
 					near = nearby_hex(point.x, point.y);
 				} else if(contain_point(Point(){x = x, y = y}, near) && field[x, y] == 1) {
 					capture(Point(){x = x, y = y}, 2);
-					can_bot_make_move = true;
 					selected = false;
 					near.clear();
 					how_make_move = HowMakeMove.FirstBot;

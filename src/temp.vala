@@ -3,7 +3,6 @@ using Gee;
 int max_my;
 int max_enemy;
 ArrayList<Point?> all_cell;
-int number_cell_player_make_move;
 
 void find() {
 	max_my = 0;

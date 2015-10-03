@@ -13,6 +13,9 @@ public class Cell : Object {
 	double y;
 	Point me;
 	TypeCells my_type;
+	const double x_center_first = 60;
+	const double y_center_first = 30;
+	const double size = 24;
 	
 	public Cell(int x, int y) {
 		this.me.x = x;
