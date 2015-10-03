@@ -1,20 +1,16 @@
 using Gee;
 using Cairo;
 
-ArrayList<Point?> nearby_hex(int x, int y)
-{
+ArrayList<Point?> nearby_hex(int x, int y) {
 	var near = new ArrayList<Point?>();
-	if(y % 2 == 1)
-	{
+	if(y % 2 == 1) {
 		near.add(Point(){x = x+1, y = y-1});
 		near.add(Point(){x = x+1, y = y  });
 		near.add(Point(){x = x+1, y = y+1});
 		near.add(Point(){x = x  , y = y+1});
 		near.add(Point(){x = x-1, y = y  });
 		near.add(Point(){x = x  , y = y-1});
-	}
-	else
-	{
+	} else {
 		near.add(Point(){x = x  , y = y-1});
 		near.add(Point(){x = x+1, y = y  });
 		near.add(Point(){x = x  , y = y+1});
@@ -22,64 +18,50 @@ ArrayList<Point?> nearby_hex(int x, int y)
 		near.add(Point(){x = x-1, y = y  });
 		near.add(Point(){x = x-1, y = y-1});
 	}
-	for(var i = 5; i > -1; i--)
-	{
-		if(!(if_exist(near[i])))
-		{
+	for(var i = 5; i > -1; i--) {
+		if(!(if_exist(near[i]))) {
 			near.remove_at(i);
 		}
 	}
 	return near;
 }
 
-bool if_exist(Point p)
-{
+bool if_exist(Point p) {
 	return p.x < field.length[0] && p.y < field.length[1] && p.x > -1 && p.y > -1;
 }
 
 delegate void Method(int x, int y);
 
-void for_each_item(Method m)
-{
-	for(var x = 0; x < field.length[0]; x++)
-	{
-		for(var y = 0; y < field.length[1]; y++)
-		{
+void for_each_item(Method m) {
+	for(var x = 0; x < field.length[0]; x++) {
+		for(var y = 0; y < field.length[1]; y++) {
 			m(x, y);
 		}
 	}
 }
 
-bool contain_point(Point point, ArrayList<Point?> items)
-{
-	foreach(var item in items)
-	{
-		if(point == item)
-		{
+bool contain_point(Point point, ArrayList<Point?> items) {
+	foreach(var item in items) {
+		if(point == item) {
 			return true;
 		}
 	}
 	return false;
 }
 
-void capture(Point point, int val)
-{
+void capture(Point point, int val) {
 	var near = nearby_hex(point.x, point.y);
-	foreach(var item in near)
-	{
-		if(field[item.x, item.y] > 1)
-		{
+	foreach(var item in near) {
+		if(field[item.x, item.y] > 1) {
 			field[item.x, item.y] = val;
 		}
 	}
 	field[point.x, point.y] = val;
 }
 
-ArrayList<Point?> through_cage(Point point)
-{
+ArrayList<Point?> through_cage(Point point) {
 	var near = new ArrayList<Point?>();
-	if(point.y % 2 == 0)
-	{
+	if(point.y % 2 == 0) {
 		near.add(Point(){x = point.x-1, y = point.y-2});
 		near.add(Point(){x = point.x  , y = point.y-2});
 		near.add(Point(){x = point.x+1, y = point.y-2});
@@ -92,10 +74,7 @@ ArrayList<Point?> through_cage(Point point)
 		near.add(Point(){x = point.x-2, y = point.y+1});
 		near.add(Point(){x = point.x-2, y = point.y  });
 		near.add(Point(){x = point.x-2, y = point.y-1});
-
-	}
-	else
-	{
+	} else {
 		near.add(Point(){x = point.x-1, y = point.y-2});
 		near.add(Point(){x = point.x  , y = point.y-2});
 		near.add(Point(){x = point.x+1, y = point.y-2});
@@ -109,10 +88,8 @@ ArrayList<Point?> through_cage(Point point)
 		near.add(Point(){x = point.x-2, y = point.y  });
 		near.add(Point(){x = point.x-1, y = point.y-1});
 	}
-	for(var i = 11; i > -1; i--)
-	{
-		if(!(if_exist(near[i])))
-		{
+	for(var i = 11; i > -1; i--) {
+		if(!(if_exist(near[i]))) {
 			near.remove_at(i);
 		}
 	}
@@ -120,15 +97,13 @@ ArrayList<Point?> through_cage(Point point)
 }
 
 
-string how_win()
-{
+string how_win() {
 	int x = 0;
 	int y = 0;
 	int player = 0;
 	int bot = 0;
 	for_each_item((x, y) => {
-		switch(field[x, y])
-		{
+		switch(field[x, y]) {
 			case 2:
 				player++;
 				break;
@@ -137,28 +112,19 @@ string how_win()
 				break;
 		}
 	});
-	if(bot > player || player == 0)
-	{
+	if(bot > player || player == 0) {
 		return "ИИ выиграл";
-	}
-	else if(bot < player || bot == 0)
-	{
+	} else if(bot < player || bot == 0) {
 		return "Игрок выиграл";
-	}
-	else
-	{
+	} else {
 		return "Ничья";
 	}
 }
 
-bool can_make_move()
-{
-	for(var x = 0; x < field.length[0]; x++)
-	{
-		for(var y = 0; y < field.length[1]; y++)
-		{
-			if(field[x, y] == 1)
-			{
+bool can_make_move() {
+	for(var x = 0; x < field.length[0]; x++) {
+		for(var y = 0; y < field.length[1]; y++) {
+			if(field[x, y] == 1) {
 				return true;
 			}
 		}
@@ -167,8 +133,7 @@ bool can_make_move()
 }
 
 //FIXME заменить int x, int y  на эту структуру
-public struct Point
-{
+public struct Point {
 	public int x;
 	public int y;
 }

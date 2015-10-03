@@ -21,6 +21,7 @@ public class Cell : Object {
 		if(y % 2 == 0) this.x -= size;
 		this.y = y_center_first + y * size * Math.sin(120.0 / 180 * Math.PI) * 2;
 	}
+	
 	public void draw(Context ctx) {
 		ctx.save();
 		select_color(ctx, me.x, me.y);
@@ -43,16 +44,16 @@ public class Cell : Object {
 		  Порядок проверки линйи линий - правая верхняя, правая, правая нижняя,
 		  левая нижняя, левая, левая верхняя*/
 		return Math.tan(150.0 / 180 * Math.PI) * (x - x_hexagon - size * Math.cos(30.0 / 180 * Math.PI)) >
-			       -y + y_hexagon - size * Math.sin(30.0 / 180 * Math.PI) &&
-			   x_hexagon + Math.cos(30.0 / 180 * Math.PI) * size > x &&
-			   Math.tan(210.0 / 180 * Math.PI) * (x - x_hexagon - size * Math.cos(30.0 / 180 * Math.PI)) <
-			       -y + y_hexagon + size * Math.sin(30.0 / 180 * Math.PI) &&
-			       
-			   Math.tan(150.0 / 180 * Math.PI) * (x - x_hexagon + size * Math.cos(30.0 / 180 * Math.PI)) <
-			       -y + y_hexagon + size * Math.sin(30.0 / 180 * Math.PI) &&
-			   x_hexagon - Math.cos(30.0 / 180 * Math.PI) * size < x &&
-			   Math.tan(210.0 / 180 * Math.PI) * (x - x_hexagon + size * Math.cos(30.0 / 180 * Math.PI)) >
-			       -y + y_hexagon - size * Math.sin(30.0 / 180 * Math.PI);
+		           -y + y_hexagon - size * Math.sin(30.0 / 180 * Math.PI) &&
+		       x_hexagon + Math.cos(30.0 / 180 * Math.PI) * size > x &&
+		       Math.tan(210.0 / 180 * Math.PI) * (x - x_hexagon - size * Math.cos(30.0 / 180 * Math.PI)) <
+		           -y + y_hexagon + size * Math.sin(30.0 / 180 * Math.PI) &&
+		           
+		       Math.tan(150.0 / 180 * Math.PI) * (x - x_hexagon + size * Math.cos(30.0 / 180 * Math.PI)) <
+		           -y + y_hexagon + size * Math.sin(30.0 / 180 * Math.PI) &&
+		       x_hexagon - Math.cos(30.0 / 180 * Math.PI) * size < x &&
+		       Math.tan(210.0 / 180 * Math.PI) * (x - x_hexagon + size * Math.cos(30.0 / 180 * Math.PI)) >
+		           -y + y_hexagon - size * Math.sin(30.0 / 180 * Math.PI);
 	}
 }
 
