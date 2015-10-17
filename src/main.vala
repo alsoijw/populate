@@ -8,6 +8,7 @@ public int[,] field;
 public Cell[,] cells;
 Point point;
 ArrayList<Point?> near;
+ArrayList<Point?> jump;
 bool selected;
 int number_cell;
 
@@ -68,6 +69,7 @@ public class PopulateGame : Gtk.Window {
 		add(drawing_area);
 		create_field();
 		near = new ArrayList<Point?>();
+		jump = new ArrayList<Point?>();
 		game_mode = GameMode.Menu;
 	}
 	
@@ -92,11 +94,18 @@ public class PopulateGame : Gtk.Window {
 					point.y = y;
 					selected = true;
 					near = nearby_hex(point.x, point.y);
+					jump = through_cage(point);
 				} else if(contain_point(Point(){x = x, y = y}, near) && field[x, y] == 1) {
 					capture(Point(){x = x, y = y}, 2);
 					selected = false;
 					near.clear();
 					how_make_move = HowMakeMove.FirstBot;
+				} else if(contain_point(Point(){x = x, y = y}, jump) && field[x, y] == 1) {
+					capture(Point(){x = x, y = y}, 2);
+					selected = false;
+					jump.clear();
+					how_make_move = HowMakeMove.FirstBot;
+					field[point.x, point.y] = 1;
 				} else {
 					selected = false;
 					near.clear();

@@ -20,6 +20,8 @@ void select_color(Context ctx, int x, int y) {
 	var temp = Point(){x = x, y = y};
 	if(selected && contain_point(temp, near) && field[temp.x, temp.y] == 1) {
 		ctx.set_source_rgb(0xB3 / 255.0, 0xDC / 255.0, 0x70 / 255.0);
+	} else if(selected && contain_point(temp, jump) && field[temp.x, temp.y] == 1) {
+		ctx.set_source_rgb(0x8B / 255.0, 0xA3 / 255.0, 0x65 / 255.0);
 	} else if(field[x,y] == 0) {
 		ctx.set_source_rgba(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0, 0);
 	} else if(field[x,y] == 1) {
