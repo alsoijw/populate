@@ -70,6 +70,7 @@ public class PopulateGame : Gtk.Window {
 		create_field();
 		near = new ArrayList<Point?>();
 		jump = new ArrayList<Point?>();
+		blind_zone = new ArrayList<Point?>();
 		game_mode = GameMode.Menu;
 	}
 	
@@ -102,6 +103,7 @@ public class PopulateGame : Gtk.Window {
 					how_make_move = HowMakeMove.FirstBot;
 				} else if(contain_point(Point(){x = x, y = y}, jump) && field[x, y] == 1) {
 					capture(Point(){x = x, y = y}, 2);
+					blind_zone = nearby_hex(x, y);
 					selected = false;
 					jump.clear();
 					how_make_move = HowMakeMove.FirstBot;
@@ -148,7 +150,8 @@ public class PopulateGame : Gtk.Window {
 			} else {
 				game_mode = GameMode.EndGame;
 				draw_text(ctx, how_win());
-			}
+			}blind_zone.clear();
+			
 		} else { //HowMakeMove.Wait
 			wait--;
 			if(wait == 0) {

@@ -3,6 +3,7 @@ using Gee;
 int max_my;
 int max_enemy;
 ArrayList<Point?> all_cell;
+ArrayList<Point?> blind_zone;
 
 void find() {
 	max_my = 0;
@@ -26,7 +27,7 @@ void can(int x, int y) {
 				my++;
 			}
 		}
-		if(my > 0) {
+		if(my > 0 && !contain_point(Point(){x = x, y = y}, blind_zone)) {
 			//add_point_to_list(all_cell, Point(){x = x, y = y}, ref max, my + enemy);
 			if(max_enemy == 0 && enemy > 0) {
 				all_cell.clear();
