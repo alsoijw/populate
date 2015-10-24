@@ -2,16 +2,57 @@ using Gee;
 
 int max_my;
 int max_enemy;
+int max_enemy_jump;
 ArrayList<Point?> all_cell;
 ArrayList<Point?> blind_zone;
+ArrayList<CouplePoint?> jumpL;
+ArrayList<CouplePoint?> buff;
 
 void find() {
 	max_my = 0;
 	max_enemy = 0;
+	max_enemy_jump = 0;
 	all_cell = new ArrayList<Point?>();
+	jumpL = new ArrayList<CouplePoint?>();
+	buff = new ArrayList<CouplePoint?>();
 	for_each_item(can);
-	if(all_cell.size > 0) {
+	for_each_item(where_can_jump);
+	choose_were_jump();
+	if(max_enemy_jump > max_enemy && jumpL.size > 0) {
+		var i = Random.int_range(0, jumpL.size);
+		field[jumpL[i].f.x, jumpL[i].f.y] = 1;
+		capture(jumpL[i].s, 3);
+	} else if(all_cell.size > 0) {
 		capture(all_cell[Random.int_range(0, all_cell.size)], 3);
+	}
+}
+
+void where_can_jump(int x, int y) {
+	var current = Point(){x = x, y = y};
+	if(field[x, y] == 3) {
+		foreach(var p in through_cage(current)) { 
+			if(field[p.x, p.y] == 1 && !contain_point(current, blind_zone)) {
+				buff.add(CouplePoint(){f = current, s = p});
+			}
+		}
+	}
+}
+
+void choose_were_jump() {
+	foreach(var c in buff) {
+		var enemy = 0;
+		foreach(var near in nearby_hex(c.s.x, c.s.y)) {
+			if(field[near.x, near.y] == 2) {
+				enemy++;
+			}
+		}
+		if(max_enemy_jump < enemy) {
+			jumpL.clear();
+			max_enemy_jump = enemy;
+			jumpL.add(c);
+		} else if(max_enemy_jump == enemy) {
+			jumpL.add(c);
+		}
 	}
 }
 
@@ -28,7 +69,6 @@ void can(int x, int y) {
 			}
 		}
 		if(my > 0 && !contain_point(Point(){x = x, y = y}, blind_zone)) {
-			//add_point_to_list(all_cell, Point(){x = x, y = y}, ref max, my + enemy);
 			if(max_enemy == 0 && enemy > 0) {
 				all_cell.clear();
 				add_point_to_list(all_cell, Point(){x = x, y = y}, ref max_enemy, enemy);

@@ -125,4 +125,8 @@ public struct Point {
 	public int y;
 }
 
+public struct CouplePoint {
+	public Point f;
+	public Point s;
+}
 
