@@ -14,44 +14,14 @@ int number_cell;
 
 public class PopulateGame : Gtk.Window {
 	private DrawingArea drawing_area;
-	
-	private MenuItem play;
-	private MenuItem exit;
-	
-	private GameMode _game_mode;
-	private GameMode game_mode {
-		get { return _game_mode; }
-		set {
-				if(_game_mode != value) {
-					_game_mode = value;
-					if(_game_mode == GameMode.Game) {
-						drawing_area.draw.disconnect(draw_menu);
-						button_press_event.disconnect(menu_mouse);
-						drawing_area.draw.connect(on_draw);
-						button_press_event.connect(temp);
-						create_field();
-					} else if(_game_mode == GameMode.Menu) {
-						drawing_area.draw.disconnect(on_draw);
-						button_press_event.disconnect(end_game_mouse);
-						drawing_area.draw.connect(draw_menu);
-						button_press_event.connect(menu_mouse);
-					} else if(_game_mode == GameMode.EndGame) {
-						button_press_event.disconnect(temp);
-						button_press_event.connect(end_game_mouse);
-					}
-				}
-			}
-	}
+	private Button play;
+	private Button edit;
+	private Button setting;
+	private Button exit;
+	private Button back;
 	
 	private HowMakeMove how_make_move;
 	private int wait;
-	
-	private enum GameMode {
-		init,
-		Menu,
-		Game,
-		EndGame
-	}
 	
 	private enum HowMakeMove {
 		User,
@@ -62,16 +32,16 @@ public class PopulateGame : Gtk.Window {
 	public PopulateGame() {
 		this.title = "Populate game";
 		this.destroy.connect(exit1);
-		set_default_size(400, 500);
 		resizable = false;
-		drawing_area = new DrawingArea();
-		drawing_area.set_size_request(400, 500);
-		add(drawing_area);
-		create_field();
+		play = new Button.with_label("Play");
+		edit = new Button.with_label("Edit");
+		setting = new Button.with_label("Setting");
+		exit = new Button.with_label("Exit");
+		back = new Button.with_label("Back");
+		create_menu();
 		near = new ArrayList<Point?>();
 		jump = new ArrayList<Point?>();
 		blind_zone = new ArrayList<Point?>();
-		game_mode = GameMode.Menu;
 	}
 	
 	private void create_field() {
@@ -148,10 +118,11 @@ public class PopulateGame : Gtk.Window {
 				find();
 				how_make_move = HowMakeMove.User;
 			} else {
-				game_mode = GameMode.EndGame;
+				drawing_area.button_press_event.disconnect(temp);
+				drawing_area.button_press_event.connect(end_game_mouse);
 				draw_text(ctx, how_win());
-			}blind_zone.clear();
-			
+			}
+			blind_zone.clear();
 		} else { //HowMakeMove.Wait
 			wait--;
 			if(wait == 0) {
@@ -172,32 +143,63 @@ public class PopulateGame : Gtk.Window {
 		ctx.show_text (utf8);
 	}
 	
-	private bool draw_menu(Widget da, Context ctx) {
-		//FIXME избавится от постоянного создания.
-		play = new MenuItem("Играть", ctx, 1);
-		exit = new MenuItem("Выход", ctx, 0);
-		int x;int y;Gdk.ModifierType mask;
-		var display = Gdk.Display.get_default();
-		var device_manager = display.get_device_manager();
-		var device = device_manager.get_client_pointer();
-		get_root_window().get_device_position (device, out x, out y, out mask);
-		play.draw_text(ctx);
-		exit.draw_text(ctx);
-		return true;
-	}
-	
-	private bool menu_mouse(Gdk.EventButton event) {
-		if(play.contain_point(event.x, event.y)) {
-			game_mode = GameMode.Game;
-		} else if(exit.contain_point(event.x, event.y)) {
-			close();
-		}
-		return true;
-	}
-	
 	private bool end_game_mouse(Gdk.EventButton event) {
-		game_mode = GameMode.Menu;
+		show_menu();
+		drawing_area.button_press_event.disconnect(end_game_mouse);
+		drawing_area.button_press_event.connect(temp);
 		return true;
+	}
+	
+	private void create_menu() {
+		var box = new Box (Orientation.VERTICAL, 50);
+		box.homogeneous = true;
+		box.set_size_request(400, 500);
+		edit.sensitive = false;
+		setting.sensitive = false;
+		drawing_area = new DrawingArea();
+		drawing_area.add_events(Gdk.EventMask.BUTTON_PRESS_MASK);
+		drawing_area.draw.connect(on_draw);
+		drawing_area.button_press_event.connect(temp);
+		var heade_bar = new HeaderBar();
+		heade_bar.show_close_button = true;
+		heade_bar.title = this.title;
+		this.set_titlebar(heade_bar);
+		var heade_box = new Box(Orientation.HORIZONTAL, 10);
+		heade_bar.custom_title = heade_box;
+		heade_box.homogeneous = true;
+		back.clicked.connect(show_menu);
+		heade_box.pack_start(back, false, false, 0);
+		play.clicked.connect (() => {
+			create_field();
+			play.visible = false;
+			edit.visible = false;
+			setting.visible = false;
+			exit.visible = false;
+			drawing_area.visible = true;
+			back.visible = true;
+		});
+		exit.clicked.connect(() => {this.close();});
+		box.add(play);
+		box.add(edit);
+		box.add(setting);
+		box.add(exit);
+		box.add(drawing_area);
+		this.add(box);
+	}
+	
+	private void show_menu() {
+		play.visible = true;
+		edit.visible = true;
+		setting.visible = true;
+		exit.visible = true;
+		drawing_area.visible = false;
+		back.visible = false;
+	}
+	
+	public new void show_all() {
+		base.show_all();
+		drawing_area.visible = false;
+		back.visible = false;
 	}
 }
 
