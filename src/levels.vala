@@ -1,5 +1,5 @@
 void level1() {
-	field = new int[8,10];
+	field = new int[13, 11];
 	field[0, 3] = 3;
 	field[1, 1] = 1;
 	field[1, 2] = 1;
@@ -41,18 +41,10 @@ void level1() {
 }
 
 void level_loaded() {
-	cells = new Cell[8,10];
+	cells = new Cell[field.length[0], field.length[1]];
 	for(var y = 0; y < cells.length[1]; y++) {
 		for(var x = 0; x < cells.length[0]; x++) {
 			cells[x, y] = new Cell(x, y);
-		}
-	}
-	number_cell = 0;
-	for(var y = 0; y < field.length[1]; y++) {
-		for(var x = 0; x < field.length[0]; x++) {
-			if(field[x, y] != 0) {
-				number_cell++;
-			}
 		}
 	}
 }

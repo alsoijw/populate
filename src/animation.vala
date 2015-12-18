@@ -10,9 +10,10 @@ void plot_graph(Context ctx) {
 	int first_bot;
 	whose_cells(out empty, out player, out first_bot);
 	var offset = 5.0;
-	draw_item(ctx, 1, empty, ref offset);
-	draw_item(ctx, 2, player, ref offset);
-	draw_item(ctx, 3, first_bot, ref offset);
+	var all = empty + player + first_bot;
+	draw_item(ctx, 1, empty, ref offset, all);
+	draw_item(ctx, 2, player, ref offset, all);
+	draw_item(ctx, 3, first_bot, ref offset, all);
 }
 
 void whose_cells(out int empty, out int player , out int first_bot) {
@@ -32,10 +33,10 @@ void whose_cells(out int empty, out int player , out int first_bot) {
 	}
 }
 
-void draw_item(Context ctx, int cell, int number, ref double offset) {
+void draw_item(Context ctx, int cell, int number, ref double offset, int all) {
 	ctx.save();
 	select_color_2(ctx, cell);
-	var y = number / (double)number_cell * column_height;
+	var y = number / (double)all * column_height;
 	ctx.new_path();
 	ctx.move_to(5, offset);
 	ctx.rel_line_to(column_width, 0);

@@ -10,7 +10,6 @@ Point point;
 ArrayList<Point?> near;
 ArrayList<Point?> jump;
 bool selected;
-int number_cell;
 
 public class PopulateGame : Gtk.Window {
 	private DrawingArea drawing_area;
