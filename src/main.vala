@@ -162,7 +162,7 @@ public class PopulateGame : Gtk.Window {
 		int x;
 		int y;
 		bool result;
-		find_hexagon(event.x, event.y - get_titlebar().height_request, out x, out y, out result);
+		find_hexagon(event.x, event.y, out x, out y, out result);
 		if(result) {
 			if(event.button == 1) {
 				if(field[x, y] == 3) {
@@ -258,9 +258,6 @@ public class PopulateGame : Gtk.Window {
 		} else {
 			show_menu();
 			file = null;
-			//drawing_area.draw.disconnect(on_draw);
-			//drawing_area.button_press_event.disconnect(end_game_mouse);
-			//drawing_area.button_press_event.disconnect(temp);
 			drawing_area.draw.disconnect(edit_draw);
 			drawing_area.button_press_event.disconnect(edit_mouse);
 		}
