@@ -247,8 +247,6 @@ public class PopulateGame : Gtk.Window {
 			drawing_area.button_press_event.disconnect(end_game_mouse);
 			drawing_area.draw.connect(edit_draw);
 			drawing_area.button_press_event.connect(edit_mouse);
-			near.clear();
-			jump.clear();
 			new_f.visible = true;
 			open.visible = true;
 			save.visible = true;
@@ -266,6 +264,8 @@ public class PopulateGame : Gtk.Window {
 			drawing_area.draw.disconnect(edit_draw);
 			drawing_area.button_press_event.disconnect(edit_mouse);
 		}
+		near.clear();
+		jump.clear();
 	}
 	
 	private bool end_game_mouse(Gdk.EventButton event) {
