@@ -100,6 +100,11 @@ public class PopulateGame : Gtk.Window {
 		near = new ArrayList<Point?>();
 		jump = new ArrayList<Point?>();
 		blind_zone = new ArrayList<Point?>();
+		try {
+			this.icon = new Gdk.Pixbuf.from_file("populate.svg");
+		} catch (Error e) {
+			stderr.printf("Error: %s\n", e.message);
+		}
 	}
 	
 	private void create_field() {

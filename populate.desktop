@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Populate
+Name[ru]=Populate
+Comment=logical game
+Comment[ru]=Логическая игра
+Exec=populate
+Icon=populate
+Terminal=false
+Type=Application
+Categories=GTK;Game;LogicGame;
+Keywords=game;logic;puzzle;
