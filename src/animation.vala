@@ -35,7 +35,7 @@ void whose_cells(out int empty, out int player , out int first_bot) {
 
 void draw_item(Context ctx, int cell, int number, ref double offset, int all) {
 	ctx.save();
-	select_color_2(ctx, cell);
+	select_cell_color(ctx, cell);
 	var y = number / (double)all * column_height;
 	ctx.new_path();
 	ctx.move_to(5, offset);

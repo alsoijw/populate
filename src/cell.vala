@@ -27,7 +27,7 @@ public class Cell : Object {
 	
 	public void draw(Context ctx) {
 		ctx.save();
-		select_color(ctx, me.x, me.y);
+		cell_color(ctx, me.x, me.y);
 		ctx.new_path();
 		ctx.move_to(x, y + size);
 		ctx.rel_line_to(size * Math.cos(30.0 / 180 * Math.PI), -size * Math.sin(30.0 / 180 * Math.PI));

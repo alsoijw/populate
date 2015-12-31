@@ -3,9 +3,10 @@ using Cairo;
 
 delegate void DrawMethod();
 
-//FIXME эта и следующая функция очень похожи
-void select_color_2(Context ctx, int cell) {
-	if(cell == 1) {
+void select_cell_color(Context ctx, int cell) {
+	if(cell == 0) {
+		ctx.set_source_rgba(0, 0, 0, 0);
+	} else if(cell == 1) {
 		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
 	} else if(cell == 2) {
 		ctx.set_source_rgb(0x92 / 255.0, 0xCD / 255.0, 0x32 / 255.0);
@@ -16,22 +17,14 @@ void select_color_2(Context ctx, int cell) {
 	}
 }
 
-void select_color(Context ctx, int x, int y) {
+void cell_color(Context ctx, int x, int y) {
 	var temp = Point(){x = x, y = y};
 	if(selected && contain_point(temp, near) && field[temp.x, temp.y] == 1) {
 		ctx.set_source_rgb(0xB3 / 255.0, 0xDC / 255.0, 0x70 / 255.0);
 	} else if(selected && contain_point(temp, jump) && field[temp.x, temp.y] == 1) {
 		ctx.set_source_rgb(0x8B / 255.0, 0xA3 / 255.0, 0x65 / 255.0);
-	} else if(field[x,y] == 0) {
-		ctx.set_source_rgba(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0, 0);
-	} else if(field[x,y] == 1) {
-		ctx.set_source_rgb(0x87 / 255.0, 0x87 / 255.0, 0x87 / 255.0);
-	} else if(field[x,y] == 2) {
-		ctx.set_source_rgb(0x92 / 255.0, 0xCD / 255.0, 0x32 / 255.0);
-	} else if(field[x,y] == 3) {
-		ctx.set_source_rgb(0x33 / 255.0, 0x99 / 255.0, 0xFF / 255.0);
 	} else {
-		ctx.set_source_rgb(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0);
+		select_cell_color(ctx, field[x, y]);
 	}
 }
 
