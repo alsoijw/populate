@@ -12,7 +12,9 @@ void select_cell_color(Context ctx, int cell) {
 		ctx.set_source_rgb(0x92 / 255.0, 0xCD / 255.0, 0x32 / 255.0);
 	} else if(cell == 3) {
 		ctx.set_source_rgb(0x33 / 255.0, 0x99 / 255.0, 0xFF / 255.0);
-	} else {
+	} else if(cell == 4) {
+		ctx.set_source_rgb(0x33 / 255.0, 0x33 / 255.0, 0x33 / 255.0);
+	}  else {
 		ctx.set_source_rgb(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0);
 	}
 }

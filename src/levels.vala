@@ -16,7 +16,7 @@ void level1() {
 	field[3, 0] = 1;
 	field[3, 1] = 1;
 	field[3, 2] = 1;
-	field[3, 3] = 1;
+	field[3, 3] = 4;
 	field[3, 4] = 1;
 	field[3, 5] = 1;
 	field[3, 6] = 1;
@@ -31,11 +31,11 @@ void level1() {
 	field[5, 1] = 1;
 	field[5, 2] = 1;
 	field[5, 3] = 1;
-	field[5, 4] = 2;
+	field[5, 4] = 1;
 	field[5, 5] = 1;
 	field[5, 6] = 1;
 	field[6, 2] = 1;
-	field[6, 3] = 1;
+	field[6, 3] = 2;
 	field[6, 4] = 1;
 	level_loaded();
 }

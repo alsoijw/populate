@@ -52,7 +52,7 @@ bool contain_point(Point point, ArrayList<Point?> items) {
 void capture(Point point, int val) {
 	var near = nearby_hex(point.x, point.y);
 	foreach(var item in near) {
-		if(field[item.x, item.y] > 1) {
+		if(field[item.x, item.y] > 1 && field[item.x, item.y] != 4) {
 			field[item.x, item.y] = val;
 		}
 	}

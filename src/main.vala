@@ -100,6 +100,7 @@ public class PopulateGame : Gtk.Window {
 		near = new ArrayList<Point?>();
 		jump = new ArrayList<Point?>();
 		blind_zone = new ArrayList<Point?>();
+		fertilize_cell = new ArrayList<Point?>();
 		try {
 			this.icon = new Gdk.Pixbuf.from_file("populate.svg");
 		} catch (Error e) {
@@ -148,16 +149,14 @@ public class PopulateGame : Gtk.Window {
 			}
 			//FIXME код для отладки
 			else if(event.button == 2) {
-				if(field[x, y] == 3) {
-					field[x, y] = 1;
-				} else if(field[x, y] == 1) {
-					field[x, y] = 2;
-				} else if(field[x, y] == 2) {
-					field[x, y] = 3;
+				if(field[x, y] == 4) {
+					field[x, y] = 0;
+				} else {
+					field[x, y]++;
 				}
 			}
 			else if(event.button == 3) {
-				find();
+				how_make_move = HowMakeMove.FirstBot;
 			}
 		}
 		return true;
@@ -170,14 +169,14 @@ public class PopulateGame : Gtk.Window {
 		find_hexagon(event.x, event.y, out x, out y, out result);
 		if(result) {
 			if(event.button == 1) {
-				if(field[x, y] == 3) {
+				if(field[x, y] == 4) {
 					field[x, y] = 0;
 				} else {
 					field[x, y]++;
 				}
 			} else {
 				if(field[x, y] == 0) {
-					field[x, y] = 3;
+					field[x, y] = 4;
 				} else {
 					field[x, y]--;
 				}
@@ -209,6 +208,8 @@ public class PopulateGame : Gtk.Window {
 				draw_text(ctx, how_win());
 			}
 			blind_zone.clear();
+			//FIXME разделить
+			fertilize();
 		} else { //HowMakeMove.Wait
 			wait--;
 			if(wait == 0) {
