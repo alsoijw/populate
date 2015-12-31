@@ -2,6 +2,8 @@ using Gee;
 using Gtk;
 using Cairo;
 
+const string GETTEXT_PACKAGE = "populate";
+
 PopulateGame cairo_sample;
 //FIXME надо переименовать
 public int[,] field;
@@ -39,21 +41,21 @@ public class PopulateGame : Gtk.Window {
 		this.title = "Populate game";
 		this.destroy.connect(exit1);
 		resizable = false;
-		play = new Button.with_label("Play");
-		edit = new Button.with_label("Edit");
-		setting = new Button.with_label("Setting");
-		exit = new Button.with_label("Exit");
-		back = new Button.with_label("Back");
-		new_f = new Button.with_label("New");
+		play = new Button.with_label(_("Play"));
+		edit = new Button.with_label(_("Edit"));
+		setting = new Button.with_label(_("Setting"));
+		exit = new Button.with_label(_("Exit"));
+		back = new Button.with_label(_("Back"));
+		new_f = new Button.with_label(_("New"));
 		new_f.clicked.connect(() => {
 			create_field();
 			file = null;
 		});
-		open = new Button.with_label("Open");
+		open = new Button.with_label(_("Open"));
 		open.clicked.connect(() => {
-			var dialog = new FileChooserDialog ("Open", this,
-			             Gtk.FileChooserAction.OPEN, "_Cancel",
-			             Gtk.ResponseType.CANCEL, "_Open", Gtk.ResponseType.ACCEPT);
+			var dialog = new FileChooserDialog(_("Open"), this,
+						 Gtk.FileChooserAction.OPEN, _("_Cancel"),
+						 Gtk.ResponseType.CANCEL, _("_Open"), Gtk.ResponseType.ACCEPT);
 			var a = dialog.run();
 			if(a == ResponseType.ACCEPT) {
 				dialog.close();
@@ -63,12 +65,12 @@ public class PopulateGame : Gtk.Window {
 				dialog.close();
 			}
 		});
-		save = new Button.with_label("Save");
+		save = new Button.with_label(_("Save"));
 		save.clicked.connect(() => {
 			if(file == null) {
-				var dialog = new FileChooserDialog ("Save", this,
-					         FileChooserAction.SAVE, "_Cancel",
-					         ResponseType.CANCEL, "_Save", ResponseType.ACCEPT);
+				var dialog = new FileChooserDialog(_("Save"), this,
+							 FileChooserAction.SAVE, _("_Cancel"),
+							 ResponseType.CANCEL, _("_Save"), ResponseType.ACCEPT);
 				var a = dialog.run();
 				if(a == ResponseType.ACCEPT) {
 					dialog.close();
@@ -81,11 +83,11 @@ public class PopulateGame : Gtk.Window {
 				level_save(file);
 			}
 		});
-		save_as = new Button.with_label("Save as");
+		save_as = new Button.with_label(_("Save as"));
 		save_as.clicked.connect(() => {
-			var dialog = new FileChooserDialog ("Save as", this,
-			             FileChooserAction.SAVE, "_Cancel",
-			             ResponseType.CANCEL, "_Save as", ResponseType.ACCEPT);
+			var dialog = new FileChooserDialog(_("Save as"), this,
+						 FileChooserAction.SAVE, _("_Cancel"),
+						 ResponseType.CANCEL, _("_Save as"), ResponseType.ACCEPT);
 			var a = dialog.run();
 			if(a == ResponseType.ACCEPT) {
 				dialog.close();
@@ -95,7 +97,7 @@ public class PopulateGame : Gtk.Window {
 				dialog.close();
 			}
 		});
-		test = new Button.with_label("Test");
+		test = new Button.with_label(_("Test"));
 		create_menu();
 		near = new ArrayList<Point?>();
 		jump = new ArrayList<Point?>();
@@ -371,6 +373,10 @@ public class PopulateGame : Gtk.Window {
 }
 
 int main(string[] args) {
+	Intl.setlocale(LocaleCategory.MESSAGES, "");
+	Intl.textdomain(GETTEXT_PACKAGE); 
+	Intl.bind_textdomain_codeset(GETTEXT_PACKAGE, "utf-8"); 
+	Intl.bindtextdomain(GETTEXT_PACKAGE, "./locale"); 
 	Gtk.init(ref args);
 	cairo_sample = new PopulateGame();
 	cairo_sample.show_all();
