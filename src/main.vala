@@ -1,5 +1,6 @@
 using Gee;
 using Gtk;
+using Gdk;
 using Cairo;
 
 const string GETTEXT_PACKAGE = "populate";
@@ -13,6 +14,7 @@ Point point;
 ArrayList<Point?> near;
 ArrayList<Point?> jump;
 bool selected;
+GLib.Settings color_settings;
 
 public class PopulateGame : Gtk.Window {
 	private DrawingArea drawing_area;
@@ -27,6 +29,8 @@ public class PopulateGame : Gtk.Window {
 	private Button save_as;
 	private Button test;
 	private File file;
+	private FlowBox flowbox;
+	private Box box;
 	private HowMakeMove how_make_move;
 	private int wait;
 	private bool is_edit;
@@ -104,7 +108,8 @@ public class PopulateGame : Gtk.Window {
 		blind_zone = new ArrayList<Point?>();
 		fertilize_cell = new ArrayList<Point?>();
 		try {
-			this.icon = new Gdk.Pixbuf.from_file("populate.svg");
+			//FIXME поправить загрузку иконки
+			//this.icon = new Gdk.Pixbuf.from_file("populate.svg");
 		} catch (Error e) {
 			stderr.printf("Error: %s\n", e.message);
 		}
@@ -277,10 +282,9 @@ public class PopulateGame : Gtk.Window {
 	}
 	
 	private void create_menu() {
-		var box = new Box(Orientation.VERTICAL, 50);
+		box = new Box(Orientation.VERTICAL, 50);
 		box.homogeneous = true;
 		box.set_size_request(700, 500);
-		setting.sensitive = false;
 		drawing_area = new DrawingArea();
 		drawing_area.add_events(Gdk.EventMask.BUTTON_PRESS_MASK);
 		var heade_bar = new HeaderBar();
@@ -324,6 +328,7 @@ public class PopulateGame : Gtk.Window {
 			drawing_area.draw.connect(edit_draw);
 			drawing_area.button_press_event.connect(edit_mouse);
 		});
+		setting.clicked.connect(show_setting);
 		exit.clicked.connect(() => {this.close();});
 		test.clicked.connect(() => {
 			drawing_area.draw.disconnect(edit_draw);
@@ -337,7 +342,6 @@ public class PopulateGame : Gtk.Window {
 			test.visible = false;
 			this.is_edit = true;
 			edit_field = new int[field.length[0], field.length[1]];
-			//stdout.printf(@"$(edit_field == null)ok\n");
 			for(var y = 0; y < cells.length[1]; y++) {
 				for(var x = 0; x < cells.length[0]; x++) {
 					edit_field[x, y] = field[x, y];
@@ -350,6 +354,7 @@ public class PopulateGame : Gtk.Window {
 		box.add(exit);
 		box.add(drawing_area);
 		this.add(box);
+		create_setting();
 	}
 	
 	private void show_menu() {
@@ -364,11 +369,80 @@ public class PopulateGame : Gtk.Window {
 		save.visible = false;
 		save_as.visible = false;
 		test.visible = false;
+		flowbox.visible = false;
 	}
 	
 	public new void show_all() {
 		base.show_all();
 		show_menu();
+	}
+	
+	private void create_setting() {
+		flowbox = new FlowBox();
+		flowbox.halign = Align.CENTER;
+		flowbox.valign = Align.CENTER;
+		flowbox.max_children_per_line = 2;
+		flowbox.min_children_per_line = 2;
+		
+		color_settings = new GLib.Settings("org.alsoijw.populate");
+		
+		bot_color = RGBA();
+		bot_color.parse(color_settings.get_string("bot"));
+		var bot_color_button = new ColorButton.with_rgba(bot_color);
+		set_color(bot_color_button, "bot");
+		
+		user_color = RGBA();
+		user_color.parse(color_settings.get_string("user"));
+		var user_color_button = new ColorButton.with_rgba(user_color);
+		set_color(user_color_button, "user");
+		
+		empty_color = RGBA();
+		empty_color.parse(color_settings.get_string("empty"));
+		var empty_color_button = new ColorButton.with_rgba(empty_color);
+		set_color(empty_color_button, "empty");
+		
+		var background = new ColorButton.with_rgba(empty_color);
+		background.sensitive = false;
+		var default_c = new Gtk.Switch();
+		default_c.sensitive = false;
+		var use_background = new Gtk.Switch();
+		use_background.sensitive = false;
+		
+		flowbox.add(new Label(_("Use default colors")));
+		flowbox.add(default_c);
+		flowbox.add(new Label(_("Bot")));
+		flowbox.add(bot_color_button);
+		flowbox.add(new Label(_("Player")));
+		flowbox.add(user_color_button);
+		flowbox.add(new Label(_("Empty")));
+		flowbox.add(empty_color_button);
+		flowbox.add(new Label(_("Use background")));
+		flowbox.add(use_background);
+		flowbox.add(new Label(_("Background")));
+		flowbox.add(background);
+		box.add(flowbox);
+	}
+	
+	private void show_setting() {
+		play.visible = false;
+		edit.visible = false;
+		setting.visible = false;
+		exit.visible = false;
+		flowbox.visible = true;
+		back.visible = true;
+	}
+	
+	private void set_color(ColorButton button, string name) {
+		button.color_set.connect(() => {
+			color_settings.set_string(name, "#%02x%02x%02x".printf(
+					(uint)(Math.round(button.rgba.red * 0xFF)),
+					(uint)(Math.round(button.rgba.green * 0xFF)),
+					(uint)(Math.round(button.rgba.blue * 0xFF))));
+			//FIXME костыль
+			if(name == "bot") bot_color = button.rgba;
+			else if(name == "user") user_color = button.rgba;
+			else if(name == "empty") empty_color = button.rgba;
+		});
 	}
 }
 
@@ -376,7 +450,7 @@ int main(string[] args) {
 	Intl.setlocale(LocaleCategory.MESSAGES, "");
 	Intl.textdomain(GETTEXT_PACKAGE); 
 	Intl.bind_textdomain_codeset(GETTEXT_PACKAGE, "utf-8"); 
-	Intl.bindtextdomain(GETTEXT_PACKAGE, "./locale"); 
+	Intl.bindtextdomain(GETTEXT_PACKAGE, "../share/locale"); 
 	Gtk.init(ref args);
 	cairo_sample = new PopulateGame();
 	cairo_sample.show_all();

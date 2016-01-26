@@ -1,5 +1,10 @@
 using Gee;
 using Cairo;
+using Gdk;
+
+RGBA bot_color;
+RGBA user_color;
+RGBA empty_color;
 
 const int column_width = 40;
 const int column_height = 250;

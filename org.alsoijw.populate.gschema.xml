@@ -1,0 +1,19 @@
+<schemalist>
+	<schema id="org.alsoijw.populate" path="/org/alsoijw/populate/" gettext-domain="populate">
+		<key name="bot" type="s">
+			<default l10n="messages">"#3399FF"</default>
+			<summary>Color bot cell</summary>
+			<description></description>
+		</key>
+		<key name="empty" type="s">
+			<default l10n="messages">"#878787"</default>
+			<summary>Color empty cell</summary>
+			<description></description>
+		</key>
+		<key name="user" type="s">
+			<default l10n="messages">"#92CD32"</default>
+			<summary>Color user cell</summary>
+			<description></description>
+		</key>
+	</schema>
+</schemalist>
