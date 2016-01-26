@@ -15,3 +15,5 @@ uninstall:
 	rm /usr/bin/populate /usr/share/applications/populate.desktop /usr/share/icons/hicolor/scalable/apps/populate.svg /usr/share/glib-2.0/schemas/org.alsoijw.populate.gschema.xml
 	glib-compile-schemas /usr/share/glib-2.0/schemas/
 
+gen_pot:
+	xgettext --language=C --keyword=_ --escape --sort-output -o populate.pot `find src/ -type f`

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-31 17:28+0200\n"
+"POT-Creation-Date: 2016-01-26 19:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,82 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/main.vala:48
+#: src/main.vala:52
 msgid "Back"
 msgstr ""
 
-#: src/main.vala:45
-msgid "Edit"
+#: src/main.vala:421
+msgid "Background"
 msgstr ""
 
-#: src/main.vala:47
-msgid "Exit"
+#: src/main.vala:413
+msgid "Bot"
 msgstr ""
 
 #: src/main.vala:49
+msgid "Edit"
+msgstr ""
+
+#: src/main.vala:417
+msgid "Empty"
+msgstr ""
+
+#: src/main.vala:51
+msgid "Exit"
+msgstr ""
+
+#: src/main.vala:53
 msgid "New"
 msgstr ""
 
-#: src/main.vala:54 src/main.vala:56
+#: src/main.vala:58 src/main.vala:60
 msgid "Open"
 msgstr ""
 
-#: src/main.vala:44
+#: src/main.vala:48
 msgid "Play"
 msgstr ""
 
-#: src/main.vala:68 src/main.vala:71
+#: src/main.vala:415
+msgid "Player"
+msgstr ""
+
+#: src/main.vala:72 src/main.vala:75
 msgid "Save"
 msgstr ""
 
-#: src/main.vala:86 src/main.vala:88
+#: src/main.vala:90 src/main.vala:92
 msgid "Save as"
 msgstr ""
 
-#: src/main.vala:46
+#: src/main.vala:50
 msgid "Setting"
 msgstr ""
 
-#: src/main.vala:100
+#: src/main.vala:104
 msgid "Test"
 msgstr ""
 
-#: src/main.vala:57 src/main.vala:72 src/main.vala:89
+#: src/main.vala:419
+msgid "Use background"
+msgstr ""
+
+#: src/main.vala:411
+msgid "Use default colors"
+msgstr ""
+
+#: src/main.vala:61 src/main.vala:76 src/main.vala:93
 msgid "_Cancel"
 msgstr ""
 
-#: src/main.vala:58
+#: src/main.vala:62
 msgid "_Open"
 msgstr ""
 
-#: src/main.vala:73
+#: src/main.vala:77
 msgid "_Save"
 msgstr ""
 
-#: src/main.vala:90
+#: src/main.vala:94
 msgid "_Save as"
 msgstr ""
