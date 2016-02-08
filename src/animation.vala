@@ -5,6 +5,9 @@ using Gdk;
 RGBA bot_color;
 RGBA user_color;
 RGBA empty_color;
+RGBA fertilize_color;
+RGBA background_color;
+bool use_background;
 
 const int column_width = 40;
 const int column_height = 250;

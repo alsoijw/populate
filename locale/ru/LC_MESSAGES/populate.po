@@ -5,28 +5,28 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 19:16+0200\n"
-"PO-Revision-Date: 2016-01-26 19:16+0200\n"
-"Last-Translator: alsoijw <alsoijw@yandex.ru>\n"
+"POT-Creation-Date: 2016-02-08 19:13+0200\n"
+"PO-Revision-Date: 2016-02-08 19:19+0200\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.6\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/main.vala:52
 msgid "Back"
 msgstr "Назад"
 
-#: src/main.vala:421
+#: src/main.vala:441
 msgid "Background"
 msgstr "Фон"
 
-#: src/main.vala:413
+#: src/main.vala:431
 msgid "Bot"
 msgstr "ИИ"
 
@@ -34,13 +34,17 @@ msgstr "ИИ"
 msgid "Edit"
 msgstr "Редактор"
 
-#: src/main.vala:417
+#: src/main.vala:435
 msgid "Empty"
 msgstr "Пустые"
 
 #: src/main.vala:51
 msgid "Exit"
 msgstr "Выход"
+
+#: src/main.vala:437
+msgid "Fertilize"
+msgstr "Удобрение"
 
 #: src/main.vala:53
 msgid "New"
@@ -54,9 +58,13 @@ msgstr "Открыть"
 msgid "Play"
 msgstr "Играть"
 
-#: src/main.vala:415
+#: src/main.vala:433
 msgid "Player"
 msgstr "Игрок"
+
+#: src/main.vala:444
+msgid "Reset"
+msgstr "Сбросить"
 
 #: src/main.vala:72 src/main.vala:75
 msgid "Save"
@@ -74,13 +82,9 @@ msgstr "Настройки"
 msgid "Test"
 msgstr "Тестировать"
 
-#: src/main.vala:419
+#: src/main.vala:439
 msgid "Use background"
 msgstr "Использовать фон"
-
-#: src/main.vala:411
-msgid "Use default colors"
-msgstr "Использовать цвета по умолчанию"
 
 #: src/main.vala:61 src/main.vala:76 src/main.vala:93
 msgid "_Cancel"

@@ -13,7 +13,7 @@ void select_cell_color(Context ctx, int cell) {
 	} else if(cell == 3) {
 		ctx.set_source_rgb(bot_color.red, bot_color.green, bot_color.blue);
 	} else if(cell == 4) {
-		ctx.set_source_rgb(0x33 / 255.0, 0x33 / 255.0, 0x33 / 255.0);
+		ctx.set_source_rgb(fertilize_color.red, fertilize_color.green, fertilize_color.blue);
 	}  else {
 		ctx.set_source_rgb(0x00 / 255.0, 0x00 / 255.0, 0x00 / 255.0);
 	}

@@ -15,5 +15,21 @@
 			<summary>Color user cell</summary>
 			<description></description>
 		</key>
+		<key name="fertilize" type="s">
+			<default l10n="messages">"#333333"</default>
+			<summary>Color fertilize cell</summary>
+			<description></description>
+		</key>
+		<key name="background" type="s">
+			<default l10n="messages">"#222222"</default>
+			<summary>Color background</summary>
+			<description></description>
+		</key>
+		<key name="use-background" type="b">
+			<default>false</default>
+			<summary>use-background</summary>
+			<description>
+			</description>
+		</key>
 	</schema>
 </schemalist>
