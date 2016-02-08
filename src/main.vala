@@ -500,7 +500,7 @@ int main(string[] args) {
 	Intl.setlocale(LocaleCategory.MESSAGES, "");
 	Intl.textdomain(GETTEXT_PACKAGE); 
 	Intl.bind_textdomain_codeset(GETTEXT_PACKAGE, "utf-8"); 
-	Intl.bindtextdomain(GETTEXT_PACKAGE, "../share/locale"); 
+	Intl.bindtextdomain(GETTEXT_PACKAGE, "/usr/share/locale"); 
 	Gtk.init(ref args);
 	cairo_sample = new PopulateGame();
 	cairo_sample.show_all();
