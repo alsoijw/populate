@@ -95,8 +95,12 @@ bool can_player_make_move(int val) {
 	for(var x = 0; x < field.length[0]; x++) {
 		for(var y = 0; y < field.length[1]; y++) {
 			if(field[x, y] == val) {
-				var near = nearby_hex(x, y);
-				foreach(var cell in near) {
+				foreach(var cell in nearby_hex(x, y)) {
+					if(field[cell.x, cell.y] == 1) {
+						return true;
+					}
+				}
+				foreach(var cell in through_cage(Point(){ x = x, y = y })) {
 					if(field[cell.x, cell.y] == 1) {
 						return true;
 					}
