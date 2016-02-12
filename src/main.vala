@@ -191,13 +191,17 @@ public class PopulateGame : Gtk.Window {
 		}
 		return true;
 	}
-
-	private bool on_draw(Widget da, Context ctx) {
+	
+	private void draw_background(Context ctx) {
 		if(use_background) {
 			ctx.set_source_rgb(background_color.red, background_color.green, background_color.blue);
 			ctx.rectangle(0, 0, box.get_allocated_width(), box.get_allocated_height());
 			ctx.fill();
 		}
+	}
+	
+	private bool on_draw(Widget da, Context ctx) {
+		draw_background(ctx);
 		plot_graph(ctx);
 		for(var y1 = 0; y1 < cells.length[1]; y1++) {
 			for(var x1 = 0; x1 < cells.length[0]; x1++) {
@@ -231,11 +235,7 @@ public class PopulateGame : Gtk.Window {
 	}
 	
 	private bool edit_draw(Widget da, Context ctx) {
-		if(use_background) {
-			ctx.set_source_rgb(background_color.red, background_color.green, background_color.blue);
-			ctx.rectangle(0, 0, box.get_allocated_width(), box.get_allocated_height());
-			ctx.fill();
-		}
+		draw_background(ctx);
 		plot_graph(ctx);
 		for(var y1 = 0; y1 < cells.length[1]; y1++) {
 			for(var x1 = 0; x1 < cells.length[0]; x1++) {
@@ -385,6 +385,13 @@ public class PopulateGame : Gtk.Window {
 		show_menu();
 	}
 	
+	private void reset_color(string name, string color_value, 
+	                         RGBA * color, ColorButton button) {
+		color_settings.set_string(name, color_value);
+		color->parse(color_value);
+		button.rgba = *color;
+	}
+	
 	private void create_setting() {
 		flowbox = new FlowBox();
 		flowbox.halign = Align.CENTER;
@@ -395,30 +402,10 @@ public class PopulateGame : Gtk.Window {
 		color_settings = new GLib.Settings("org.alsoijw.populate");
 		use_background = color_settings.get_boolean("use-background");
 		
-		bot_color = RGBA();
-		bot_color.parse(color_settings.get_string("bot"));
-		var bot_color_button = new ColorButton.with_rgba(bot_color);
-		set_color(bot_color_button, "bot");
-		
-		user_color = RGBA();
-		user_color.parse(color_settings.get_string("user"));
-		var user_color_button = new ColorButton.with_rgba(user_color);
-		set_color(user_color_button, "user");
-		
-		empty_color = RGBA();
-		empty_color.parse(color_settings.get_string("empty"));
-		var empty_color_button = new ColorButton.with_rgba(empty_color);
-		set_color(empty_color_button, "empty");
-		
-		fertilize_color = RGBA();
-		fertilize_color.parse(color_settings.get_string("fertilize"));
-		var fertilize_color_button = new ColorButton.with_rgba(fertilize_color);
-		set_color(fertilize_color_button, "fertilize");
-		
-		background_color = RGBA();
-		background_color.parse(color_settings.get_string("background"));
-		var background_color_button = new ColorButton.with_rgba(background_color);
-		set_color(background_color_button, "background");
+		var bot_color_button = set_color(flowbox, _("Bot"), "bot", &bot_color);
+		var user_color_button = set_color(flowbox, _("Player"), "user", &user_color);
+		var empty_color_button = set_color(flowbox, _("Empty"), "empty", &empty_color);
+		var fertilize_color_button = set_color(flowbox, _("Fertilize"), "fertilize", &fertilize_color);
 		
 		var use_background_switch = new Gtk.Switch();
 		use_background_switch.state = use_background;
@@ -428,41 +415,15 @@ public class PopulateGame : Gtk.Window {
 			return true;
 		});
 		
-		flowbox.add(new Label(_("Bot")));
-		flowbox.add(bot_color_button);
-		flowbox.add(new Label(_("Player")));
-		flowbox.add(user_color_button);
-		flowbox.add(new Label(_("Empty")));
-		flowbox.add(empty_color_button);
-		flowbox.add(new Label(_("Fertilize")));
-		flowbox.add(fertilize_color_button);
-		flowbox.add(new Label(_("Use background")));
-		flowbox.add(use_background_switch);
-		flowbox.add(new Label(_("Background")));
-		flowbox.add(background_color_button);
+		var background_color_button = set_color(flowbox, _("Background"), "background", &background_color);
 		
 		var reset = new Button.with_label(_("Reset"));
 		reset.clicked.connect(() => {
-			color_settings.set_string("bot", "#3399FF");
-			bot_color.parse("#3399FF");
-			bot_color_button.rgba = bot_color;
-			
-			color_settings.set_string("empty", "#878787");
-			empty_color.parse("#878787");
-			empty_color_button.rgba = empty_color;
-			
-			color_settings.set_string("user", "#92CD32");
-			user_color.parse("#92CD32");
-			user_color_button.rgba = user_color;
-			
-			color_settings.set_string("fertilize", "#333333");
-			fertilize_color.parse("#333333");
-			fertilize_color_button.rgba = fertilize_color;
-			
-			color_settings.set_string("background", "#222222");
-			background_color.parse("#222222");
-			background_color_button.rgba = background_color;
-			
+			reset_color("bot", "#3399FF", &bot_color, bot_color_button);
+			reset_color("empty", "#878787", &empty_color, empty_color_button);
+			reset_color("user", "#92CD32", &user_color, user_color_button);
+			reset_color("fertilize", "#333333", &fertilize_color, fertilize_color_button);
+			reset_color("background", "#222222", &background_color, background_color_button);
 			color_settings.set_boolean("use-background", false);
 			use_background = false;
 			use_background_switch.state = false;
@@ -480,19 +441,19 @@ public class PopulateGame : Gtk.Window {
 		back.visible = true;
 	}
 	
-	private void set_color(ColorButton button, string name) {
+	private ColorButton set_color(FlowBox flowbox, string label, string name, RGBA * color) {
+		color.parse(color_settings.get_string(name));
+		var button = new ColorButton.with_rgba(*color);
+		flowbox.add(new Label(_(label)));
+		flowbox.add(button);
 		button.color_set.connect(() => {
 			color_settings.set_string(name, "#%02x%02x%02x".printf(
 					(uint)(Math.round(button.rgba.red * 0xFF)),
 					(uint)(Math.round(button.rgba.green * 0xFF)),
 					(uint)(Math.round(button.rgba.blue * 0xFF))));
-			//FIXME костыль
-			if(name == "bot") bot_color = button.rgba;
-			else if(name == "user") user_color = button.rgba;
-			else if(name == "empty") empty_color = button.rgba;
-			else if(name == "fertilize") fertilize_color = button.rgba;
-			else if(name == "background") background_color = button.rgba;
+			*color = button.rgba;
 		});
+		return button;
 	}
 }
 
